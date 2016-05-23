@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <!-- CSS Just for this page -->
+        <style>
+        /* Color */
+        body, #new-quote-btn{
+          background-color: #AAAAAA;
+        }
+        #quoteText, #quoteAuthor, .fa-twitter-square, .fa-tumblr-square{
+          color: #AAAAAA;
+        }
+        /* Quote block */
+        #quote-block{
+          visibility: hidden;
+        }
+        #new-quote-btn, #new-quote-btn:focus{
+          outline: none;
+          border: none;
+        }
+        .content-wrapper{
+          float: none;
+          margin: 15% auto;
+        }
+        .content-block{
+          padding: 2em 3em;
+          background-color: #FFFFFF;
+        }
+        .made-by{
+          margin-top: 1em;
+          text-align: center;
+          color: #FFFFFF;
+        }
+        .made-by a:link, .made-by a:visited, .made-by a:hover, .madeby a:active, .madeby a:focus{
+          color: #FFFFFF;
+        }
+        </style>
+    </head>
+    <body>
+      <div class="container-fluid">
+        <!-- Content Wrapper -->
+        <div class="col-md-6 col-md-offset-3 content-wrapper">
+          <div class="col-md-12 img-rounded content-block">
+            <div class="row">
+              <blockquote id="quote-block">
+                <p id="quoteText"></p>
+                <footer id="quoteAuthor"></footer>
+              </blockquote>
+            </div>
+            <div class="row footer">
+              <div class="col-md-3 social-media">
+                <a href=”” id="twitter-link"><i class="fa fa-twitter-square fa-3x" alt="Tweet This!"></i></a>
+                <a href=”” id="tumblr-link"><i class="fa fa-tumblr-square fa-3x" alt="Post This to Tumblr!"></i></a>
+              </div>
+              <div class="col-md-3 col-md-offset-6 quote-button">
+                <button type="button" class="btn btn-primary" id="new-quote-btn">New quote</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 made-by">by <a href="http://soarersiuhc.github.io">Pika</a></div>
+        </div>
+      </div>
+      
+      <!-- Scripts -->
+      <!-- JQuery and JQuery UI -->
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+      <!-- Font Awesome -->
+      <script src="https://use.fontawesome.com/bf7e5d2d91.js"></script>
+      <!-- Own script -->
+      <script>
+        var quoteText;
+        var quoteAuthor;
+        var newColor;
+        $(document).ready(function(){
+          /* Make AJAX request for new quote */
+          // On load
+          GetNewQuote().done(UpdateQuote).done(function(){
+              ChangeColorScheme(500);
+              $('#quote-block').css("visibility","visible").hide().fadeIn(500);
+          })
+          // Clicking button
+          $('#new-quote-btn').click(function(){
+            //Get New Quote
+            GetNewQuote().done(function(){
+            //Fade out blockquote.
+              $('#quote-block').fadeTo(500, 0, function(){
+                  //Fade in new quote. Only starts working after AJAX is complete.
+                    $('#quote-block').css("visibility", "hidden");
+                    UpdateQuote();
+                    $('#quote-block').css("visibility","visible").fadeTo(500,1);
+                });
+            //Change Color scheme at the same time.
+              ChangeColorScheme(500);
+              });
+            });
+          });
+            
+        function GetNewQuote(){
+          return $.ajax(
+            {
+              method: "POST",
+              url: "https://andruxnet-random-famous-quotes.p.mashape.com/?cat=famous",
+              dataType: "json",
+              success: function(json){
+                quoteText = json.quote;
+                quoteAuthor = json.author;
+              },
+              beforeSend: function (xhr){
+                xhr.setRequestHeader("X-Mashape-Authorization", "pOw7Q5J3fhmshUANU8wUNqmJsYJ3p1U3B7Kjsn8FLyExLA1Ykn")
+              }
+          });
+        }
+        
+        function UpdateQuote(){
+          $('#quoteText').html(quoteText);
+          $('#quoteAuthor').html(quoteAuthor);
+          $('#twitter-link').attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=Pika&text=@"+quoteAuthor+" says "+quoteText);
+          $('tumblr-link').attr("href", "https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes,Pika&caption="+quoteAuthor+"&content="+quoteText);
+        }
+        
+        function ChangeColorScheme(time){
+          newColor = GetNewColor();
+          console.log(newColor);
+          $("body, #new-quote-btn").animate({
+              backgroundColor: newColor,
+            },time);
+          $("#quoteText, #quoteAuthor, .fa-twitter-square, .fa-tumblr-square").animate({
+              color: newColor,
+            },time);
+        }
+        
+        function GetNewColor(){
+          var random_color = "#";
+          for (var i = 0; i < 6; i++) {
+              random_color += Math.floor(Math.random() * 10);
+          }
+          return random_color;
+        }
+      </script>
+    </body>
+</html>
