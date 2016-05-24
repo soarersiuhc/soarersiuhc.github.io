@@ -486,12 +486,15 @@
 		      	  data: { "lat": lat, "lon": lon},
               dataType: "json",
               success: function(json){
-					Location = json.name + ", " + json.sys.country;
-					WeatherIcon = json.weather[0].icon;
-					//JSON Temperature in Kelvin
-					Temp_C = KelvinToCelsius(json.main.temp);
-					Temp_K = KelvinToFahrenheit(json.main.temp);
-			  }
+      					Location = json.name + ", " + json.sys.country;
+      					WeatherIcon = json.weather[0].icon;
+      					//JSON Temperature in Kelvin
+      					Temp_C = KelvinToCelsius(json.main.temp);
+      					Temp_K = KelvinToFahrenheit(json.main.temp);
+      			  },
+      			  error: function(){
+      			    $('location').html("<h2>Unable to make AJAX request.</h2>");
+      			  }
           });
         }
 		
