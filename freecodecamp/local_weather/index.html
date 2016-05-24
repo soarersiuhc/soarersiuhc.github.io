@@ -463,7 +463,7 @@
 		
 		function Update(){
 			if(!navigator.geolocation){
-				console.log("GeoLocation Not Supported");
+				$('location').html("<h2>GeoLocation Not Supported</h2>");
 				return;
 			}
 			
@@ -472,7 +472,7 @@
 			}
 			
 			function error(){
-				console.log("Unable to retrieve your location.")
+				$('location').html("<h2>Unable to retrieve your location.</h2>");
 			}
 			
 			navigator.geolocation.getCurrentPosition(success,error);
