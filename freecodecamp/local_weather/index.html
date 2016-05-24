@@ -267,11 +267,11 @@
 		}
 
 
-		/* Animations */ 
+		/* Animations */
 
 		@-webkit-keyframes spin {
 		  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
-		} 
+		}
 
 		@keyframes spin {
 		  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
@@ -398,7 +398,7 @@
 	<div class="container-fluid">
 		<div class="content-wrapper col-md-6 col-md-offset-3">
 			<div class="header row col-md-12">
-				<h1>Pika Weather App</h1>				
+				<h1>Pika Weather App</h1>
 			</div>
 			<div class="main row col-md-12">
 				<div id="location">
@@ -421,16 +421,12 @@
 	<!-- Custom script -->
 	<script>
 		$(document).ready(function(){
-			//Retrieve and Update Coordinates
-			MyCoordinates();
-			console.log(Coordinates);
-			GetWeather(Coordinates.latitude, Coordinates.longtitude).done(DisplayWeather);
-			
+			//Retrieve Coordinates and Update Weather
+			Update();
 			$("#temp_unit").click(ChangeTempUnit);
 		});
 		
-		var Coordinates = {latitude:40.7128, longtitude: -74.0059};
-		var Location = "New York, US";
+		var Location;
 		var WeatherIcon;
 		var Temp_C;
 		var Temp_F;
@@ -439,7 +435,7 @@
 		//Keys: icon (corresponding to icon's in OpenWeather API), code (corresponding to html code to be inserted)
 		var OWIconList = [
 			{
-				icon: ["01d", "01n"], 
+				icon: ["01d", "01n"],
 				code: "<div class='icon sunny'><div class='sun'><div class='rays'></div></div></div>"
 			}, //Clear Sky
 			{
@@ -464,15 +460,14 @@
 			}//Snow or Mist
 		];
 		
-		function MyCoordinates(){
+		function Update(){
 			if(!navigator.geolocation){
 				console.log("GeoLocation Not Supported");
 				return;
 			}
 			
 			function success(position){
-				Coordinates.latitude = position.coords.latitude; 
-				Coordinates.longtitude = position.coords.longitude;
+  			GetWeather(position.coords.latitude, position.coords.longitude).done(DisplayWeather);
 			}
 			
 			function error(){
@@ -482,12 +477,12 @@
 			navigator.geolocation.getCurrentPosition(success,error);
 		}
 		
-        function GetWeather(lat, lon){
-          return $.ajax(
+    function GetWeather(lat, lon){
+      return $.ajax(
             {
               method: "POST",
               url: "http://api.openweathermap.org/data/2.5/weather?appid=493d5ff62edc4cf95cd9f02f7e3f1de4",
-			  data: { "lat": lat, "lon": lon},
+		      	  data: { "lat": lat, "lon": lon},
               dataType: "json",
               success: function(json){
 					Location = json.name + ", " + json.sys.country;
@@ -495,7 +490,7 @@
 					//JSON Temperature in Kelvin
 					Temp_C = KelvinToCelsius(json.main.temp);
 					Temp_K = KelvinToFahrenheit(json.main.temp);
-			  }	
+			  }
           });
         }
 		
