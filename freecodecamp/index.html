@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <!-- CSS Just for this page -->
+		<style>
+		body{
+			background-color: #161616;
+			color: #FFFFFF;
+		}
+		.content-wrapper{
+			margin-top: 10%;
+		}
+		.header, .main, .footer{
+			text-align: center;
+		}
+		h1{
+			font-size: 400%;
+		}
+		h2{
+			font-size: 250%;
+		}
+		
+		/* Weather Icon */
+		/* Adapted From Josh Bader http://codepen.io/joshbader/full/EjXgqr/ */
+		#weather-icon{
+			box-sizing: border-box;
+			color: #161616;
+			font-family: 'Roboto', sans-serif;
+			text-align: center;
+			background-color: currentColor;
+		}
+		#weather-icon *,
+		#weather-icon *:before,
+		#weather-icon *:after { box-sizing: inherit; }
+		
+		.icon {
+		  position: relative;
+		  display: inline-block;
+		  width: 12em;
+		  height: 10em;
+		  font-size: 1em; /* control icon size here */
+		}
+
+		.cloud {
+		  position: absolute;
+		  z-index: 1;
+		  top: 50%;
+		  left: 50%;
+		  width: 3.6875em;
+		  height: 3.6875em;
+		  margin: -1.84375em;
+		  background: currentColor;
+		  border-radius: 50%;
+		  box-shadow:
+			-2.1875em 0.6875em 0 -0.6875em,
+			2.0625em 0.9375em 0 -0.9375em,
+			0 0 0 0.375em #fff,
+			-2.1875em 0.6875em 0 -0.3125em #fff,
+			2.0625em 0.9375em 0 -0.5625em #fff;
+		}
+		.cloud:after {
+		  content: '';
+		  position: absolute;
+		  bottom: 0;
+		  left: -0.5em;
+		  display: block;
+		  width: 4.5625em;
+		  height: 1em;
+		  background: currentColor;
+		  box-shadow: 0 0.4375em 0 -0.0625em #fff;
+		}
+		.cloud:nth-child(2) {
+		  z-index: 0;
+		  background: #fff;
+		  box-shadow:
+			-2.1875em 0.6875em 0 -0.6875em #fff,
+			2.0625em 0.9375em 0 -0.9375em #fff,
+			0 0 0 0.375em #fff,
+			-2.1875em 0.6875em 0 -0.3125em #fff,
+			2.0625em 0.9375em 0 -0.5625em #fff;
+		  opacity: 0.3;
+		  -webkit-transform: scale(0.5) translate(6em, -3em);
+				  transform: scale(0.5) translate(6em, -3em);
+		  -webkit-animation: cloud 4s linear infinite;
+				  animation: cloud 4s linear infinite;
+		}
+		.cloud:nth-child(2):after { background: #fff; }
+
+		.sun {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  width: 2.5em;
+		  height: 2.5em;
+		  margin: -1.25em;
+		  background: currentColor;
+		  border-radius: 50%;
+		  box-shadow: 0 0 0 0.375em #fff;
+		  -webkit-animation: spin 12s infinite linear;
+				  animation: spin 12s infinite linear;
+		}
+		.rays {
+		  position: absolute;
+		  top: -2em;
+		  left: 50%;
+		  display: block;
+		  width: 0.375em;
+		  height: 1.125em;
+		  margin-left: -0.1875em;
+		  background: #fff;
+		  border-radius: 0.25em;
+		  box-shadow: 0 5.375em #fff;
+		}
+		.rays:before,
+		.rays:after {
+		  content: '';
+		  position: absolute;
+		  top: 0em;
+		  left: 0em;
+		  display: block;
+		  width: 0.375em;
+		  height: 1.125em;
+		  -webkit-transform: rotate(60deg);
+				  transform: rotate(60deg);
+		  -webkit-transform-origin: 50% 3.25em;
+				  transform-origin: 50% 3.25em;
+		  background: #fff;
+		  border-radius: 0.25em;
+		  box-shadow: 0 5.375em #fff;
+		}
+		.rays:before {
+		  -webkit-transform: rotate(120deg);
+				  transform: rotate(120deg);
+		}
+		.cloud + .sun {
+		  margin: -2em 1em;
+		}
+
+		.rain,
+		.lightning,
+		.snow {
+		  position: absolute;
+		  z-index: 2;
+		  top: 50%;
+		  left: 50%;
+		  width: 3.75em;
+		  height: 3.75em;
+		  margin: 0.375em 0 0 -2em;
+		  background: currentColor;
+		}
+
+		.rain:after {
+		  content: '';
+		  position: absolute;
+		  z-index: 2;
+		  top: 50%;
+		  left: 50%;
+		  width: 1.125em;
+		  height: 1.125em;
+		  margin: -1em 0 0 -0.25em;
+		  background: #0cf;
+		  border-radius: 100% 0 60% 50% / 60% 0 100% 50%;
+		  box-shadow:
+			0.625em 0.875em 0 -0.125em rgba(255,255,255,0.2),
+			-0.875em 1.125em 0 -0.125em rgba(255,255,255,0.2),
+			-1.375em -0.125em 0 rgba(255,255,255,0.2);
+		  -webkit-transform: rotate(-28deg);
+				  transform: rotate(-28deg);
+		  -webkit-animation: rain 3s linear infinite;
+				  animation: rain 3s linear infinite;
+		}
+
+		.bolt {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  margin: -0.25em 0 0 -0.125em;
+		  color: #fff;
+		  opacity: 0.3;
+		  -webkit-animation: lightning 2s linear infinite;
+				  animation: lightning 2s linear infinite;
+		}
+		.bolt:nth-child(2) {
+		  width: 0.5em;
+		  height: 0.25em;
+		  margin: -1.75em 0 0 -1.875em;
+		  -webkit-transform: translate(2.5em, 2.25em);
+				  transform: translate(2.5em, 2.25em);
+		  opacity: 0.2;
+		  -webkit-animation: lightning 1.5s linear infinite;
+				  animation: lightning 1.5s linear infinite;
+		}
+		.bolt:before,
+		.bolt:after {
+		  content: '';
+		  position: absolute;
+		  z-index: 2;
+		  top: 50%;
+		  left: 50%;
+		  margin: -1.625em 0 0 -1.0125em;
+		  border-top: 1.25em solid transparent;
+		  border-right: 0.75em solid;
+		  border-bottom: 0.75em solid;
+		  border-left: 0.5em solid transparent;
+		  -webkit-transform: skewX(-10deg);
+				  transform: skewX(-10deg);
+		}
+		.bolt:after {
+		  margin: -0.25em 0 0 -0.25em;
+		  border-top: 0.75em solid;
+		  border-right: 0.5em solid transparent;
+		  border-bottom: 1.25em solid transparent;
+		  border-left: 0.75em solid;
+		  -webkit-transform: skewX(-10deg);
+				  transform: skewX(-10deg);
+		}
+		.bolt:nth-child(2):before {
+		  margin: -0.75em 0 0 -0.5em;
+		  border-top: 0.625em solid transparent;
+		  border-right: 0.375em solid;
+		  border-bottom: 0.375em solid;
+		  border-left: 0.25em solid transparent;
+		}
+		.bolt:nth-child(2):after {
+		  margin: -0.125em 0 0 -0.125em;
+		  border-top: 0.375em solid;
+		  border-right: 0.25em solid transparent;
+		  border-bottom: 0.625em solid transparent;
+		  border-left: 0.375em solid;
+		}
+
+		.flake:before,
+		.flake:after {
+		  content: '\2744';
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  margin: -1.025em 0 0 -1.0125em;
+		  color: #fff;
+		  list-height: 1em;
+		  opacity: 0.2;
+		  -webkit-animation: spin 8s linear infinite reverse;
+				  animation: spin 8s linear infinite reverse;
+		}
+		.flake:after {
+		  margin: 0.125em 0 0 -1em;
+		  font-size: 1.5em;
+		  opacity: 0.4;
+		  -webkit-animation: spin 14s linear infinite;
+				  animation: spin 14s linear infinite;
+		}
+		.flake:nth-child(2):before {
+		  margin: -0.5em 0 0 0.25em;
+		  font-size: 1.25em;
+		  opacity: 0.2;
+		  -webkit-animation: spin 10s linear infinite;
+				  animation: spin 10s linear infinite;
+		}
+		.flake:nth-child(2):after {
+		  margin: 0.375em 0 0 0.125em;
+		  font-size: 2em;
+		  opacity: 0.4;
+		  -webkit-animation: spin 16s linear infinite reverse;
+				  animation: spin 16s linear infinite reverse;
+		}
+
+
+		/* Animations */ 
+
+		@-webkit-keyframes spin {
+		  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+		} 
+
+		@keyframes spin {
+		  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+		}
+
+		@-webkit-keyframes cloud {
+		  0% { opacity: 0; }
+		  50% { opacity: 0.3; }
+		  100% {
+			opacity: 0;
+			-webkit-transform: scale(0.5) translate(-200%, -3em);
+					transform: scale(0.5) translate(-200%, -3em);
+		  }
+		}
+
+		@keyframes cloud {
+		  0% { opacity: 0; }
+		  50% { opacity: 0.3; }
+		  100% {
+			opacity: 0;
+			-webkit-transform: scale(0.5) translate(-200%, -3em);
+					transform: scale(0.5) translate(-200%, -3em);
+		  }
+		}
+
+		@-webkit-keyframes rain {
+		  0% {
+			background: #0cf;
+			box-shadow:
+			  0.625em 0.875em 0 -0.125em rgba(255,255,255,0.2),
+			  -0.875em 1.125em 0 -0.125em rgba(255,255,255,0.2),
+			  -1.375em -0.125em 0 #0cf;
+		  }
+		  25% {
+			box-shadow:
+			  0.625em 0.875em 0 -0.125em rgba(255,255,255,0.2),
+			  -0.875em 1.125em 0 -0.125em #0cf,
+			  -1.375em -0.125em 0 rgba(255,255,255,0.2);
+		  }
+		  50% {
+			background: rgba(255,255,255,0.3);
+			box-shadow:
+			  0.625em 0.875em 0 -0.125em #0cf,
+			  -0.875em 1.125em 0 -0.125em rgba(255,255,255,0.2),
+			  -1.375em -0.125em 0 rgba(255,255,255,0.2);
+		  }
+		  100% {
+			box-shadow:
+			  0.625em 0.875em 0 -0.125em rgba(255,255,255,0.2),
+			  -0.875em 1.125em 0 -0.125em rgba(255,255,255,0.2),
+			  -1.375em -0.125em 0 #0cf;
+		  }
+		}
+
+		@keyframes rain {
+		  0% {
+			background: #0cf;
+			box-shadow:
+			  0.625em 0.875em 0 -0.125em rgba(255,255,255,0.2),
+			  -0.875em 1.125em 0 -0.125em rgba(255,255,255,0.2),
+			  -1.375em -0.125em 0 #0cf;
+		  }
+		  25% {
+			box-shadow:
+			  0.625em 0.875em 0 -0.125em rgba(255,255,255,0.2),
+			  -0.875em 1.125em 0 -0.125em #0cf,
+			  -1.375em -0.125em 0 rgba(255,255,255,0.2);
+		  }
+		  50% {
+			background: rgba(255,255,255,0.3);
+			box-shadow:
+			  0.625em 0.875em 0 -0.125em #0cf,
+			  -0.875em 1.125em 0 -0.125em rgba(255,255,255,0.2),
+			  -1.375em -0.125em 0 rgba(255,255,255,0.2);
+		  }
+		  100% {
+			box-shadow:
+			  0.625em 0.875em 0 -0.125em rgba(255,255,255,0.2),
+			  -0.875em 1.125em 0 -0.125em rgba(255,255,255,0.2),
+			  -1.375em -0.125em 0 #0cf;
+		  }
+		}
+
+		@-webkit-keyframes lightning {
+		  45% {
+			color: #fff;
+			background: #fff;
+			opacity: 0.2;
+		  }
+		  50% {
+			color: #0cf;
+			background: #0cf;
+			opacity: 1;
+		  }
+		  55% {
+			color: #fff;
+			background: #fff;
+			opacity: 0.2;
+		  }
+		}
+
+		@keyframes lightning {
+		  45% {
+			color: #fff;
+			background: #fff;
+			opacity: 0.2;
+		  }
+		  50% {
+			color: #0cf;
+			background: #0cf;
+			opacity: 1;
+		  }
+		  55% {
+			color: #fff;
+			background: #fff;
+			opacity: 0.2;
+		  }
+		}
+		</style>
+	</head>
+	<body>
+	
+	<!-- Main content -->
+	<div class="container-fluid">
+		<div class="content-wrapper col-md-6 col-md-offset-3">
+			<div class="header row col-md-12">
+				<h1>Pika Weather App</h1>				
+			</div>
+			<div class="main row col-md-12">
+				<div id="location">
+				</div>
+				<div id="temperature">
+				</div>
+				<div id="weather-icon">
+				</div>
+			</div>
+			<div class="footer row col-md-12">
+				by <a href="http://soarersiuhc.github.io">Pika</a>
+			</div>
+		</div>
+	</div>
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<!-- Custom script -->
+	<script>
+		$(document).ready(function(){
+			//Retrieve and Update Coordinates
+			MyCoordinates();
+			console.log(Coordinates);
+			GetWeather(Coordinates.latitude, Coordinates.longtitude).done(DisplayWeather);
+			
+			$("#temp_unit").click(ChangeTempUnit);
+		});
+		
+		var Coordinates = {latitude:40.7128, longtitude: -74.0059};
+		var Location = "New York, US";
+		var WeatherIcon;
+		var Temp_C;
+		var Temp_F;
+		var Temp_Unit = "C";
+		//OWIconList, a list of objects.
+		//Keys: icon (corresponding to icon's in OpenWeather API), code (corresponding to html code to be inserted)
+		var OWIconList = [
+			{
+				icon: ["01d", "01n"], 
+				code: "<div class='icon sunny'><div class='sun'><div class='rays'></div></div></div>"
+			}, //Clear Sky
+			{
+				icon: ["02d", "02n", "03d", "03n", "04d", "04n"],
+				code: "<div class='icon cloudy'><div class='cloud'></div><div class='cloud'></div></div>"
+			}, //Cloudy
+			{
+				icon: ["09d", "09n"],
+				code: "<div class='icon sun-shower'><div class='cloud'></div><div class='sun'><div class='rays'></div></div><div class='rain'></div></div>"
+			}, //Sun Shower
+			{
+				icon: ["10d", "10n"],
+				code: "<div class='icon rainy'><div class='cloud'></div><div class='rain'></div></div>"
+			}, //Rain,
+			{
+				icon: ["11d", "11n"],
+				code: "<div class='icon thunder-storm'><div class='cloud'></div><div class='lightning'><div class='bolt'></div><div class='bolt'></div></div></div>"
+			}, //Thunderstorm
+			{
+				icon: ["13d", "13n", "50d", "50n"],
+				code: "<div class='icon flurries'><div class='cloud'></div><div class='snow'><div class='flake'></div><div class='flake'></div></div></div>"
+			}//Snow or Mist
+		];
+		
+		function MyCoordinates(){
+			if(!navigator.geolocation){
+				console.log("GeoLocation Not Supported");
+				return;
+			}
+			
+			function success(position){
+				Coordinates.latitude = position.coords.latitude; 
+				Coordinates.longtitude = position.coords.longitude;
+			}
+			
+			function error(){
+				console.log("Unable to retrieve your location.")
+			}
+			
+			navigator.geolocation.getCurrentPosition(success,error);
+		}
+		
+        function GetWeather(lat, lon){
+          return $.ajax(
+            {
+              method: "POST",
+              url: "http://api.openweathermap.org/data/2.5/weather?appid=493d5ff62edc4cf95cd9f02f7e3f1de4",
+			  data: { "lat": lat, "lon": lon},
+              dataType: "json",
+              success: function(json){
+					Location = json.name + ", " + json.sys.country;
+					WeatherIcon = json.weather[0].icon;
+					//JSON Temperature in Kelvin
+					Temp_C = KelvinToCelsius(json.main.temp);
+					Temp_K = KelvinToFahrenheit(json.main.temp);
+			  }	
+          });
+        }
+		
+		function DisplayWeather(){
+			$('#location').html("<h2>" + Location + "</h2>");
+			$('#temperature').html("<h2><span id='temp'>" + Temp_C + "</span> <sup>o</sup><span id='temp-unit'>C</span></h2>")
+			
+			var icon_html = "";
+			for(i = 0; i < OWIconList.length; i++){
+				if(OWIconList[i].icon.indexOf(WeatherIcon) != -1){
+					//Found the right weather condition
+					icon_html = OWIconList[i].code;
+					break;
+				}
+			}
+			$('#weather-icon').html(icon_html);
+		}
+		
+		function KelvinToCelsius(num){
+			return Math.round(num - 273.15);
+		}
+		
+		function KelvinToFahrenheit(num){
+			return Math.round(num*9/5 - 459.67);
+		}
+		
+		function ChangeTempUnit(){
+			if(Temp_Unit == "C"){
+				//Temp_Unit = C
+				$('#temp').html(Temp_K);
+				$('#temp-unit').html("K");
+				Temp_Unit = "K";
+			}
+			else{
+				//Temp_Unit = K
+				$('#temp').html(Temp_C);
+				$('#temp-unit').html("C");
+				Temp_Unit = "C";
+			}
+		}
+	</script>
+	</body>
+</html>
