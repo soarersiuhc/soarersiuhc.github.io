@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<!-- Google Web Fonts -->
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans">
+        <!-- CSS Just for this page -->
+		<style>
+			body{
+				background-color: #092B40;
+				font-family: "Open Sans";
+			}
+			.random-article a:link, .random-article a:visited, .random-article a:hover, .random-article a:active, .random-article a:focus{
+				color: #FFFFFF;
+			}
+			/* Search bar styling */
+			.random-article p, .search p{
+				color: #FFFFFF;
+			}
+			.random-article, .search{
+				text-align: center;
+				font-size: 125%;
+			}
+			.search-bar i{
+				color: #D96F32;
+			}
+			.search-bar{
+				margin: 5% 0px;
+			}
+			.search-bar .search-form-group{
+				width: 50%;
+				margin: auto;
+				border: 4px solid #D96F32;
+				border-radius: 10px;
+			}
+			.search-bar .search-form, .search-bar .input-group-addon{
+				background-color: transparent;
+				border: none;
+			}
+			
+			.search-result{
+				display: none;
+			}
+			.form-control:focus{
+				border: none;
+				box-shadow: none;
+				color: #FFFFFF;
+			}
+			
+			/* Card */
+			.card{
+				background-color: #E6E6E7;
+				padding: 1em 2em;
+				color: #000000;
+				margin: 2em;
+			}
+			.card .card-title{
+				font-weight: bold;
+			}
+			/* Content wrapper */
+			.random-article{
+				margin-top: 3em;
+			}
+			.spacefiller{
+				margin-top: 20%;
+			}
+		</style>
+	</head>
+	<body>
+	
+		<div class="container-fluid">
+			<div class="col-md-10 col-md-offset-1 content-wrapper">
+				<div class="row col-md-12 spacefiller"></div>
+				<div class="row col-md-6 col-md-offset-3 random-article">
+					<p><a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Click here for a random article</a></p>
+				</div>
+				<div class="row col-md-6 col-md-offset-3 search">
+					<div class="row search-bar">
+						<i class="fa fa-search fa-3x" id="search-icon-no-search" aria-hidden="true"></i>
+					</div>
+					<div class="row search-footer">
+						<p>Click icon to search</p>
+					</div>	
+				</div>
+				<div class="row col-md-12 search-result">
+				</div>
+			</div>
+		</div>
+	
+	
+      <!-- Scripts -->
+      <!-- JQuery and JQuery UI -->
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+      <!-- Font Awesome -->
+      <script src="https://use.fontawesome.com/bf7e5d2d91.js"></script>
+      <!-- Own script -->
+	  <script>
+		$(document).ready(function(){
+			//Search Icon On Click
+			$(".search-bar").on("click", "#search-icon-no-search", function(){
+				$(".spacefiller").css("display","none");
+				$(".search-footer").css("display","none");
+				$(".search-bar").html("<form onsubmit='Search(); return false;')><div class='input-group search-form-group'><input type='text' class='form-control search-form' name='search-form'></input><span class='input-group-addon' id='search-icon-search'><i class='fa fa-search' aria-hidden='true'></i></span><span class='input-group-addon' id='search-icon-cross'><i class='fa fa-times' aria-hidden='true'></i></span></div></form>")
+			});
+
+			//Searching
+			$(".search-bar").on("click", "#search-icon-search", Search);
+			
+			//Return to original state
+			$(".search-bar").on("click", "#search-icon-cross", ResetPage);
+		});
+		
+		function Search(){
+				var search_text = $(".search-form").val();
+				if(search_text != ""){
+					$.ajax({
+						url: "https://en.wikipedia.org/w/api.php",
+						data: {action: "query", prop: "extracts", list: "search", srsearch: search_text, format: "json"},
+						dataType: 'jsonp',
+						type: 'POST',
+						headers: { 'Api-User-Agent': 'Example/1.0' },
+						success: function(data) {
+							$(".search-result").html("");
+							var search_result = data.query.search;
+							for(i = 0; i < search_result.length; i++){
+								var title = search_result[i].title;
+								var snippet = search_result[i].snippet;
+								$(".search-result").append("<div class='card card-block'><h4 class='card-title'>"+title+"</h4><p class='card-text'>"+snippet+"</p></div>");
+							}
+							$(".search-result").css("display", "block");
+						}
+					});
+				}
+			};
+			
+		function ResetPage(){
+			$(".search-bar").html("<i class='fa fa-search fa-3x' id='search-icon-no-search' aria-hidden='true'></i>");
+			$(".spacefiller").css("display", "block");
+			$(".search-footer").css("display", "block");
+			$(".search-result").css("display", "none");
+		}
+	  </script>
+	</body>
+	
+</html>
