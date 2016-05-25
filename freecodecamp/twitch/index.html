@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <!-- Google font -->
+        <link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+		<style>
+		body{
+		  background-color: #ECF0E7;
+		}
+		.content-wrapper{
+		  margin-top: 2%;
+		}
+		.content-wrapper .header{
+		  font-family: "Oswald";
+      overflow: hidden;
+		}
+		.content-wrapper .header, .content-wrapper .footer{
+		  background-color: #5C5457;
+		}
+		.content-wrapper .footer{
+		  margin: 0.2em 0em 1em 0em;
+		  min-height: 1em;
+		}
+		.content-wrapper .header h1{
+		  color: #E1E1E6;
+		  text-transform: uppercase;
+		  font-weight: bold;
+		  padding: 0em 0.5em 0.5em;
+		}
+		.content-wrapper .twitch-card{
+		  margin: 0.25em 0em 0em 0em;
+		}
+
+		/* Twitch Card */
+		#twitch-stream{
+		  padding: 0px;
+		}
+		.twitch-card{
+		  padding: 1em;
+		  display: flex;
+		  align-items: center;
+		}
+		.twitch-card-left, .twitch-card-right{
+		  display: flex;
+		  align-items: center;
+		}
+		.twitch-card-logo{
+		  text-align: center;
+		}
+		.twitch-card-logo img{
+		  margin: auto;
+		}
+		/* Online Card */
+    #twitch-online .twitch-card{
+		  background-color: #B8CCA6;
+    }
+    #twitch-online .twitch-card-name{
+      font-size: 120%;
+		  text-align: center;
+    }
+		#twitch-online .twitch-card-name a{
+		  color: #4A5E82;
+		}
+		#twitch-online .twitch-card-desc{
+		  color: #645459;
+      font-size: 120%;
+		  text-align: center;
+		  font-style: italic;
+		}
+		/* Offline Card */
+    #twitch-offline .twitch-card{
+		  background-color: #4A5E82;
+    }
+    #twitch-offline .twitch-card-name{
+		  text-align: center;
+    }
+		#twitch-offline .twitch-card-name a{
+		  color: #B8CCA6;
+		}
+		#twitch-offline .twitch-card-desc{
+		  color: #8EA7C2;
+		  text-align: center;
+		  font-style: italic;
+		}
+		/* Icon */
+		.header-icon{
+		  padding-right: 0em;
+		  padding-top: 1px;
+		}
+		.icon-wrapper{
+		  margin-top: 1px;
+		  text-align: right;
+		}
+		.icon{
+		  display: inline-block;
+		  background-color: #E1E1E6;
+		  font-weight: bold;
+		  text-transform: uppercase;
+		  padding: 0.25em;
+		  color: #5C5457;
+		  margin-right: -4em;
+		}
+	  #icon-all .icon-desc, #icon-online .icon-desc, #icon-offline .icon-desc{
+	    display: inline-block;
+	    width: 4em;
+		  text-align: right;
+		}
+    #icon-online .icon-desc:after, #icon-offline .icon-desc:after, #icon-all .icon-desc:after{
+      content: "\00a0\00a0";
+    }
+		#icon-all {
+		  margin-right: 0em;
+		}
+		#icon-online i{
+		  color: #B8CCA6;
+		}
+		#icon-offline i{
+		  color: #4A5E82;
+		}
+		</style>
+	</head>
+	<body>
+	
+		<div class="container-fluid">
+		  <div class="content-wrapper col-md-8 col-md-offset-2">
+		    <div class="header col-md-12">
+		        <div class="col-md-10 header-title">
+		          <h1>Twitch Streamers</h1>
+		        </div>
+		        <div class="col-md-2 header-icon">
+		          <div class="row icon-wrapper">
+		            <span id="icon-all" class="icon"><i class="fa fa-circle"></i><span class="icon-desc">All</span></span>
+		          </div>
+		          <div class="row icon-wrapper">
+		            <span id="icon-online" class="icon"><i class="fa fa-circle"></i><span class="icon-desc">Online</span></span>
+		          </div>
+		          <div class="row icon-wrapper">
+		            <span id="icon-offline" class="icon"><i class="fa fa-circle"></i><span class="icon-desc">Offline</span></span>
+		          </div>
+		      </div>
+		    </div>
+		    <div id="twitch-stream col-md-12">
+  		    <div id="twitch-online">
+	  	      
+	  	    </div>
+	  	    <div id="twitch-offline">
+	  	      
+	  	    </div>
+	  	  </div>
+		    <div class="row col-md-12 footer">
+		      
+		    </div>
+		  </div>
+		</div>
+	
+	
+      <!-- Scripts -->
+      <!-- JQuery -->
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+      <!-- Font Awesome -->
+      <script src="https://use.fontawesome.com/bf7e5d2d91.js"></script>
+      <!-- Own script -->
+	  <script>
+	  var Channels = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin", "comster404"]
+	  
+		$(document).ready(function(){
+	    // Update Twitch Stream List
+	    // Ajax Template
+	    $.ajaxSetup({
+	        dataType: 'json',
+				  type: 'GET',
+				  headers: {"Accept": "application/vnd.twitchtv.v3+json"},
+	    });
+	    // Actual AJAX request for each channel
+	    MakeAJAXRequest(0);
+	    
+	    /* Icons */
+	    var iconState = "icon-all";
+	    // Hover effects
+	    $(".icon").hover(
+	      function(){
+	        //Mouse enter
+	        if($(this).attr("id") != iconState){
+            ToggleAppear($(this));
+	        }
+	      },
+	      function(){
+	        //Mouse leave
+	        if($(this).attr("id") != iconState){
+	          ToggleDisappear($(this));
+	        }
+	      }
+	    );
+	    // Click effects
+	    $(".icon").click(function(){
+        //Click effect is effective when clicked object is not already active.
+	      if($(this).attr("id") != iconState){
+	        //Toggle Effect
+	        ToggleDisappear($("#" + iconState));
+	        ToggleAppear($(this));
+	        iconState = $(this).attr("id");
+	        
+	        //Hiding channels if necessary
+	        if(iconState == "icon-all"){
+	          $("#twitch-online").css("display","block");
+	          $("#twitch-offline").css("display","block");
+	        }
+	        else if(iconState == "icon-online"){
+	          $("#twitch-online").css("display","block");
+	          $("#twitch-offline").css("display","none");
+	        }
+	        else if(iconState == "icon-offline"){
+	          $("#twitch-online").css("display","none");
+	          $("#twitch-offline").css("display","block");
+	        }
+	      }
+	    });
+	   });
+
+     function ToggleAppear(Obj){
+       Obj.stop(true).animate({
+         marginRight: "0em"
+	     }, {
+	       duration: 300,
+         complete: function(){
+           Obj.find(".icon-desc").css("visibility", "visible");
+          }
+	     });
+     }
+     
+     function ToggleDisappear(Obj){
+	      Obj.find(".icon-desc").css("visibility", "hidden");
+	      Obj.stop(true).animate({
+	        marginRight: "-4em"
+        }, 300);
+     }
+     
+	    function MakeAJAXRequest(index){
+	  		var name = Channels[index];
+  			var desc;
+  			var logo = "<i class='fa fa-question-circle fa-5x' aria-hidden='true'></i>";
+  			var link = "#";
+  					
+				$.ajax({
+					url: "https://api.twitch.tv/kraken/channels/" + Channels[index],
+					success: function(data) {
+    				 name = data.display_name;
+    				 desc = data.status;
+    		 	   logo = "<img class='img-responsive img-circle img-thumbnail' src='" + data.logo + "'>";
+  		       link = data._links.self;
+    					  
+    				 var html =
+    				 "<div class='row col-md-12 twitch-card'>" +
+    				   "<div class='col-md-5 twitch-card-left'>" +
+      			  	 "<div class='col-md-4 twitch-card-logo'>" + logo + "</div>" +
+      			     "<div class='col-md-8 twitch-card-name'><span><a href='" + link + "' target='_blank'>" + name + "</a></span></div>" +
+    			     "</div>" +
+    			     "<div class='col-md-7 twitch-card-right'>" +
+      		 	     "<div class='col-md-12 twitch-card-desc'><span>" + desc + "</span></div>" +
+      		 	   "</div>"
+    	  		 "</div>";
+    					  
+    				 // Check if they are online or not
+    				 $.ajax({
+        			 url: "https://api.twitch.tv/kraken/streams/" + Channels[index],
+        			 success: function(data) {
+        	 	    var online = (data.stream != null);
+         		    if(online){
+          		  	  $("#twitch-online").append(html);
+       			    }else{
+          		  	  $("#twitch-offline").append(html);
+        		    }
+    				   }
+    				 });
+					},
+					error: function(error){
+  					 var status = error.status;
+  		 	     //Error is "Unprocessable Entity" - probably account closed.
+  					 if(status == 422){
+  					    desc = "Account not available"
+  					 }
+  					 else if(status == 404){
+  					 //Error is User Not Found.
+  				      desc = "Account does not exist"
+  				   }
+  					    
+    				 var html =
+    				 "<div class='row col-md-12 twitch-card'>" +
+    				   "<div class='col-md-5 twitch-card-left'>" +
+      			  	 "<div class='col-md-4 twitch-card-logo'>" + logo + "</div>" +
+      			     "<div class='col-md-8 twitch-card-name'><span><a href='" + link + "' target='_blank'>" + name + "</a></span></div>" +
+    			     "</div>" +
+    			     "<div class='col-md-7 twitch-card-right'>" +
+      		 	     "<div class='col-md-12 twitch-card-desc'><span>" + desc + "</span></div>" +
+      		 	   "</div>"
+    	  		 "</div>";
+    					  
+    				 $("#twitch-offline").append(html);
+					},
+					complete: function(){
+					  if (index < Channels.length-1){
+					    index += 1;
+					    MakeAJAXRequest(index);
+					  }
+					}
+				});
+	      
+	    }
+	  </script>
+	</body>
+	
+</html>
