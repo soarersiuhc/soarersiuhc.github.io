@@ -20,10 +20,19 @@
         color: #FFFFFF;
       }
       
-      /* Pomodoro */
+      /* Pomodoro Message */
       .pomodoro-message h2{
         text-align: center;
       }
+      
+      .pomodoro-message .reset{
+        color: red;
+      }
+      .pomodoro-message .reset:hover{
+        text-decoration: underline;
+      }
+      
+      /* Pomodoro Clock */
       .pomodoro-clock svg{
         display: block;
         margin: auto;
@@ -183,7 +192,7 @@
         });
         
         /* Reset */
-        $(".reset").click(Reset);
+        $(".pomodoro-message").on("click", ".reset", Reset);
       });
       
       function UpdateWorkTime(time){
@@ -204,7 +213,6 @@
         //Update Clock Time
         $("#clock text").text(min + ":" + sec);
         //Draw Arc/Update CSS of clock
-        DrawArc
         //Check if Timer has ended.
         if(min == "00" && sec == "00"){
           clearInterval(Timer_Interval);
@@ -234,6 +242,7 @@
           ClockRunning = false;
           Period = "Work";
           UpdateWorkTime(WorkTime);
+          $(".pomodoro-message").html("");
       }
       
       function Notify(msg){
@@ -246,7 +255,7 @@
             pomodoroMessage = "The break now ends."
             break;
           case "ClockStops":
-            pomodoroMessage = "The clock is stopped. <span class='reset'>Reset?</span>";
+            pomodoroMessage = "The clock is stopped. <span class='reset'>Reset</span> ?";
             break;
         }
         $(".pomodoro-message").html("<h2>" + pomodoroMessage + "</h2>");
