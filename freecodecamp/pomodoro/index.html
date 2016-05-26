@@ -259,18 +259,18 @@
         var TargetYCoor = 85 - 80 * Math.cos(Angle);
         if(TimeElapsedProp <= 0.5){
           newPath.setAttributeNS(null,"d","M85,5 A80,80 0 0,1 " + TargetXCoor + " " + TargetYCoor);
-          newPath.setAttributeNS(null,"style", "stroke: #24C3CE; stroke-width: 5; fill:none");
+          newPath.setAttributeNS(null,"style", "stroke: #00CD00; stroke-width: 5; fill:none");
         }
         else{
           newPath.setAttributeNS(null,"d","M85,5 A80,80 1 1,1 " + TargetXCoor + " " + TargetYCoor);
-          if(TimeElapsedProp > 0.8){
+          if(TimeElapsedProp > 0.9){
             newPath.setAttributeNS(null,"style", "stroke: #B0171F; stroke-width: 5; fill:none");
           }
-          else if(TimeElapsedProp > 0.6){
-            newPath.setAttributeNS(null,"style", "stroke: #F6E6B1; stroke-width: 5; fill:none");
+          else if(TimeElapsedProp > 0.7){
+            newPath.setAttributeNS(null,"style", "stroke: #FBCA71; stroke-width: 5; fill:none");
           }
           else{
-            newPath.setAttributeNS(null,"style", "stroke: #24C3CE; stroke-width: 5; fill:none");
+            newPath.setAttributeNS(null,"style", "stroke: #F6F3B1; stroke-width: 5; fill:none");
           }
         }
         
