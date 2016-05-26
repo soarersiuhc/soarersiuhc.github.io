@@ -156,11 +156,11 @@
         $("#break-time-slider").slider({value: BreakTime});
         
         /* Pomodoro controls */
-        $("#work-time-slider").slider().on("slide", function(slideEvent){
-          UpdateWorkTime(slideEvent.value);
+        $("#work-time-slider").slider().on("change", function(slideEvent){
+          UpdateWorkTime(slideEvent.value.newValue);
         });
-        $("#break-time-slider").slider().on("slide", function(slideEvent){
-          UpdateBreakTime(slideEvent.value);
+        $("#break-time-slider").slider().on("change", function(slideEvent){
+          UpdateBreakTime(slideEvent.value.newValue);
         });
         
         /* Pomodoro Clock */
