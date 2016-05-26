@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <!-- Bootstrap slider -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.0.2/css/bootstrap-slider.min.css">
+		<style>
+		  body{
+        background-color: #F7F8F8;
+      }
+      
+      nav{
+		    background-color: #26075C;
+        box-shadow: 0px 0px 2px 1px;
+        padding: 0% 6%;
+		  }
+      .navbar .nav > li > a:hover{
+        background-color: #337AB7;
+        color: #FFFFFF;
+      }
+      
+      /* Pomodoro */
+      .pomodoro-message h2{
+        text-align: center;
+      }
+      .pomodoro-clock svg{
+        display: block;
+        margin: auto;
+        width: 50%;
+        fill: #24C3CE;
+      }
+      .pomodoro-clock svg #timer-button{
+        font-family: FontAwesome;
+        font-size: 200%;
+      }
+      .pomodoro-clock svg .svg-text{
+        font-size: 250%;
+      }
+      
+      /* Time-adjustment slider */
+      .pomodoro-controls{
+        margin-top: 3%;
+      }
+      #work-time-wrapper:after, #break-time-wrapper:after{
+        content: " ";
+        display: block;
+        height: 0;
+        clear: both;
+      }
+      #work-time-slider-css .slider-selection, #break-time-slider-css .slider-selection {
+      	background: #BABABA;
+      }
+		</style>
+	</head>
+	<body>
+	  
+	    <nav class="navbar navbar-light navbar-static-top">
+        <!-- Navbar container -->
+        <div class="navbar-container" role="navigation">
+          <!-- Navbar brand -->
+          <a class="navbar-brand" href="#" target="_self">
+            <img class="img-responsive" src="">
+          </a>
+          <!-- Navbar list -->
+          <ul class="nav navbar-nav navbar-left nav-pills">
+            <li><a href="">Timesheets</a></li>
+            <li><a href="">Reports</a></li>
+          </ul>
+        </div>
+	    </nav>
+	    
+		<div class="container-fluid">
+      <div class="col-md-12 pomodoro-wrapper">
+        <div class="col-md-6 col-md-offset-3 pomodoro-main">
+          <div class="row pomodoro-header">
+            
+          </div>
+          <div class="row pomodoro-message">
+            
+          </div>
+          <div class="row pomodoro-clock">
+            <!-- Clock -->
+              <svg viewBox="0 0 170 170">
+                <circle cx="85" cy="85" r="80" fill='#F7F8F8' stroke-width="5" stroke='#EAEAEA' />
+                <g id="clock-countdown-arc">
+                  
+                </g>
+                <g id="timer-button">
+                  <text x="73" y="125">&#xf04b;</text>
+                </g>
+                <g id="clock" class="svg-text">
+                  <text x="85" y="70" text-anchor="middle"></text>
+                </g>
+              </svg>
+          </div>
+          <div class="row pomodoro-controls col-md-10 col-md-offset-1">
+            <div id="work-time-wrapper">
+              <div class="title col-md-3">Work time:</div>
+              <div class="pomodoro-slider col-md-6">
+                <input id="work-time-slider" data-slider-id="work-time-slider-css" type="text" data-slider-min="1" data-slider-max="90" data-slider-step="1"/>
+              </div>
+              <div class="display-time col-md-3">
+                <span id="work-time"></span>min
+              </div>
+            </div>
+            <div id="break-time-wrapper">
+              <div class="title col-md-3">Break time:</div>
+              <div class="pomodoro-slider col-md-6">
+                <input id="break-time-slider" data-slider-id="break-time-slider-css" type="text" data-slider-min="1" data-slider-max="25" data-slider-step="1"/>
+              </div>
+              <div class="display-time col-md-3">
+                <span id="break-time"></span>min
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+		</div>
+	
+	
+      <!-- Scripts -->
+      <!-- JQuery -->
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+      <!-- Font Awesome -->
+      <script src="https://use.fontawesome.com/bf7e5d2d91.js"></script>
+      <!-- Bootstrap Slider -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.0.2/bootstrap-slider.min.js"></script>
+      <!-- Own script -->
+	  <script>
+	    //In seconds
+	    var WorkTime = 25;
+	    var BreakTime = 5;
+	    var Period = "Work";
+	    var ClockRunning = false;
+	    var CountdownTime = 0; //in milliseconds, the Countdown for clock.
+	    var ClockTime = 0; //in milliseconds, the actual time on the clock.
+	    
+	    /* Clock */
+	    var Work_Timer_Interval; //the setInterval object for Countdown.
+      $(document).ready(function(){
+        /* Update default work time and break time */
+        UpdateWorkTime(WorkTime);
+        UpdateBreakTime(BreakTime);
+        /* Sliders Initialization*/
+        $("#work-time-slider").slider({value: WorkTime});
+        $("#break-time-slider").slider({value: BreakTime});
+        
+        /* Pomodoro controls */
+        $("#work-time-slider").slider().on("slide", function(slideEvent){
+          UpdateWorkTime(slideEvent.value);
+        });
+        $("#break-time-slider").slider().on("slide", function(slideEvent){
+          UpdateBreakTime(slideEvent.value);
+        });
+        
+        /* Pomodoro Clock */
+        $("#timer-button").click(function(){
+          if(ClockRunning){
+            // Pressing button = Stop Clock
+            // Change button
+            $("#timer-button text").text("\uF04B");
+            // Reset things
+            ClockRunning = false;
+            clearInterval(Timer_Interval);
+            // Notify User
+            Notify("ClockStops");
+          }
+          else{
+            // Pressing button = Start Clock
+            // Disable slider - user cannot change time when clock is running.
+            $("#work-time-slider").slider("disable");
+            $("#break-time-slider").slider("disable");
+            // Change button
+            $("#timer-button text").text("\uF04D");
+            ClockRunning = true;
+            if(Period == "Work"){
+              CountdownTime = WorkTime*60*1000;
+              ClockTime = CountdownTime;
+            }
+            Timer_Interval = setInterval(UpdateClockTime, 1000);
+          }
+        });
+        
+        /* Reset */
+        $(".reset").click(Reset);
+      });
+      
+      function UpdateWorkTime(time){
+        WorkTime = time;
+        $("#work-time").html(WorkTime);
+        $("#clock text").text(("00" + WorkTime).slice(-2) + ":00");
+      }
+      
+      function UpdateBreakTime(time){
+        BreakTime = time;
+        $("#break-time").html(BreakTime);
+      }
+      
+      function UpdateClockTime(){
+        ClockTime -= 1000;
+        var sec = ("00" + (ClockTime/1000)%60).slice(-2);
+        var min = ("00" + Math.floor(ClockTime/60000)).slice(-2);
+        //Update Clock Time
+        $("#clock text").text(min + ":" + sec);
+        //Draw Arc/Update CSS of clock
+        DrawArc
+        //Check if Timer has ended.
+        if(min == "00" && sec == "00"){
+          clearInterval(Timer_Interval);
+          if(Period == "Work"){
+            //Notify user that break time starts
+            Notify("BreakStarts");
+            //If Work block just ended, Break block starts.
+            Period = "Break";
+            CountdownTime = BreakTime*60*1000;
+            ClockTime = CountdownTime;
+            Timer_Interval = setInterval(UpdateClockTime, 1000);
+          }
+          else{
+            //Notify user that break time ended.
+            Notify("BreakEnds");
+            //Break block just ended, reset everything.
+            Reset();
+          }
+        }
+      }
+      
+      function Reset(){
+          // Enable slider
+          $("#work-time-slider").slider("enable");
+          $("#break-time-slider").slider("enable");
+          // Resetting
+          ClockRunning = false;
+          Period = "Work";
+          UpdateWorkTime(WorkTime);
+      }
+      
+      function Notify(msg){
+        var pomodoroMessage = msg;
+        switch(msg){
+          case "BreakStarts":
+            pomodoroMessage = "Well done and have a break! The break ends at:";
+            break;
+          case "BreakEnds":
+            pomodoroMessage = "The break now ends."
+            break;
+          case "ClockStops":
+            pomodoroMessage = "The clock is stopped. <span class='reset'>Reset?</span>";
+            break;
+        }
+        $(".pomodoro-message").html("<h2>" + pomodoroMessage + "</h2>");
+      }
+	  </script>
+	</body>
+	
+</html>
