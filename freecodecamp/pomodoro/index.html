@@ -127,7 +127,10 @@
       </div>
 		</div>
 	
-	
+	  <div class="audio">
+	    <audio src="sounds/start.mp3" type="audio/mpeg" id="audio-start"></audio>
+	    <audio src="sounds/end.mp3" type="audio/mpeg" id="audio-end"></audio>
+	  </div>
       <!-- Scripts -->
       <!-- JQuery -->
       <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -182,11 +185,16 @@
             $("#break-time-slider").slider("disable");
             // Change button
             $("#timer-button text").text("\uF04D");
+            // Play Audio
+            $("#audio-start").get(0).play();
+            // Set ClockRunning Flag
             ClockRunning = true;
+            // Set CountdownTime
             if(Period == "Work"){
               CountdownTime = WorkTime*60*1000;
               ClockTime = CountdownTime;
             }
+            // Countdown Starts
             Timer_Interval = setInterval(UpdateClockTime, 1000);
           }
         });
@@ -213,9 +221,12 @@
         //Update Clock Time
         $("#clock text").text(min + ":" + sec);
         //Draw Arc/Update CSS of clock
+        DrawArc();
         //Check if Timer has ended.
         if(min == "00" && sec == "00"){
           clearInterval(Timer_Interval);
+          //Play End Music
+          $("#audio-end").get(0).play();
           if(Period == "Work"){
             //Notify user that break time starts
             Notify("BreakStarts");
@@ -234,6 +245,37 @@
         }
       }
       
+      function DrawArc(){
+        //Remove Child
+          var Node = document.getElementById("clock-countdown-arc");
+          while(Node.firstChild){
+            Node.removeChild(Node.firstChild);
+          }
+        //Add Child
+        var TimeElapsedProp = (CountdownTime - ClockTime)/CountdownTime;
+        var Angle = 2 * Math.PI * TimeElapsedProp;
+        var newPath = document.createElementNS('http://www.w3.org/2000/svg','path');
+        var TargetXCoor = 85 + 80 * Math.sin(Angle);
+        var TargetYCoor = 85 - 80 * Math.cos(Angle);
+        if(TimeElapsedProp <= 0.5){
+          newPath.setAttributeNS(null,"d","M85,5 A80,80 0 0,1 " + TargetXCoor + " " + TargetYCoor);
+          newPath.setAttributeNS(null,"style", "stroke: #24C3CE; stroke-width: 5; fill:none");
+        }
+        else{
+          newPath.setAttributeNS(null,"d","M85,5 A80,80 1 1,1 " + TargetXCoor + " " + TargetYCoor);
+          if(TimeElapsedProp > 0.8){
+            newPath.setAttributeNS(null,"style", "stroke: #B0171F; stroke-width: 5; fill:none");
+          }
+          else if(TimeElapsedProp > 0.6){
+            newPath.setAttributeNS(null,"style", "stroke: #F6E6B1; stroke-width: 5; fill:none");
+          }
+          else{
+            newPath.setAttributeNS(null,"style", "stroke: #24C3CE; stroke-width: 5; fill:none");
+          }
+        }
+        
+        Node.appendChild(newPath);
+      }
       function Reset(){
           // Enable slider
           $("#work-time-slider").slider("enable");
@@ -242,6 +284,8 @@
           ClockRunning = false;
           Period = "Work";
           UpdateWorkTime(WorkTime);
+          
+          document.getElementById("clock-countdown-arc").removeChild(document.getElementById("clock-countdown-arc").firstChild);
           $(".pomodoro-message").html("");
       }
       
