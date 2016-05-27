@@ -5,6 +5,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <!-- Bootstrap slider -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.0.2/css/bootstrap-slider.min.css">
+        <!-- Bootstrap sidebar -->
+        <link rel="stylesheet" href="style/simple-sidebar.css">
 		<style>
 		  body{
         background-color: #F7F8F8;
@@ -15,14 +17,58 @@
         box-shadow: 0px 0px 2px 1px;
         padding: 0% 6%;
 		  }
+		  
       .navbar .nav > li > a:hover{
         background-color: #337AB7;
         color: #FFFFFF;
       }
       
+      .navbar{
+        margin-bottom: 2px;
+      }
+      #page-content-wrapper{
+        padding-top: 2%;
+      }
+      
+      /**** Sidebar ****/
+      .sidebar-div{
+        display: none;
+      }
+      
+      #pomodoro-label input{
+        background-color: transparent;
+        line-height: 1.5;
+        border: none;
+        border-bottom: 2px solid #26075C;
+      }
+      #pomodoro-label input:focus{
+        outline: none;
+      }
+      /* Time-adjustment slider */
+      .pomodoro-controls{
+        margin-top: 3%;
+      }
+      #work-time-wrapper:after, #break-time-wrapper:after{
+        content: " ";
+        display: block;
+        height: 0;
+        clear: both;
+      }
+      #work-time-slider-css .slider-selection, #break-time-slider-css .slider-selection {
+      	background: #BABABA;
+      }
+      
       /* Pomodoro Message */
+      .pomodoro-header h1{
+        text-align: center;
+        margin-bottom: 0.5em;
+        margin-top: 0em;
+      }
       .pomodoro-message h2{
         text-align: center;
+        margin-bottom: 0.5em;
+        margin-top: 0em;
+        color: #26075C;
       }
       
       .pomodoro-message .reset{
@@ -46,87 +92,100 @@
       .pomodoro-clock svg .svg-text{
         font-size: 250%;
       }
-      
-      /* Time-adjustment slider */
-      .pomodoro-controls{
-        margin-top: 3%;
-      }
-      #work-time-wrapper:after, #break-time-wrapper:after{
-        content: " ";
-        display: block;
-        height: 0;
-        clear: both;
-      }
-      #work-time-slider-css .slider-selection, #break-time-slider-css .slider-selection {
-      	background: #BABABA;
-      }
 		</style>
 	</head>
 	<body>
 	  
-	    <nav class="navbar navbar-light navbar-static-top">
-        <!-- Navbar container -->
-        <div class="navbar-container" role="navigation">
-          <!-- Navbar brand -->
-          <a class="navbar-brand" href="#" target="_self">
-            <img class="img-responsive" src="">
-          </a>
-          <!-- Navbar list -->
-          <ul class="nav navbar-nav navbar-left nav-pills">
-            <li><a href="">Timesheets</a></li>
-            <li><a href="">Reports</a></li>
+    <nav class="navbar navbar-light navbar-static-top">
+      <!-- Navbar container -->
+      <div class="navbar-container" role="navigation">
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="#" target="_self">
+          <img class="img-responsive" src="">
+        </a>
+        <ul class="nav navbar-nav navbar-left">
+          <li>
+            <a href="#" id="toggle-add-pomodoro"><i class="fa fa-plus" aria-hidden="true"></i></a>
+          </li>
+        </ul>
+        <!-- Navbar list -->
+        <ul class="nav navbar-nav navbar-right nav-pills">
+          <li><a href="#">Timesheets</a></li>
+          <li><a href="#">Reports</a></li>
+        </ul>
+      </div>
+	   </nav>
+    
+  	<div class="container-fluid">
+  	  <div id="wrapper" class="toggled">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+              <li class="sidebar-brand">
+                <a href="#"></a>
+              </li>
+              <div id="sidebar-add-pomodoro" class="sidebar-div pomodoro-controls">
+                <div class="one-pomodoro-block">
+                  <li>
+                    <div id="pomodoro-label">
+                      <input type="text" placeholder="Label"/>
+                    </div>
+                  </li>
+                  <li>
+                    <div id="work-time-wrapper">
+                      <div class="title">Work time: <span id="work-time"></span> min</div>
+                      <div class="pomodoro-slider">
+                        <input id="work-time-slider" data-slider-id="work-time-slider-css" type="text" data-slider-min="1" data-slider-max="90" data-slider-step="1"/>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div id="break-time-wrapper">
+                      <div class="title">Break time: <span id="break-time"></span> min</div>
+                      <div class="pomodoro-slider">
+                        <input id="break-time-slider" data-slider-id="break-time-slider-css" type="text" data-slider-min="1" data-slider-max="25" data-slider-step="1"/>
+                      </div>
+                    </div>
+                  </li>
+                </div>
+              </div>
           </ul>
         </div>
-	    </nav>
-	    
-		<div class="container-fluid">
-      <div class="col-md-12 pomodoro-wrapper">
-        <div class="col-md-6 col-md-offset-3 pomodoro-main">
-          <div class="row pomodoro-header">
-            
-          </div>
-          <div class="row pomodoro-message">
-            
-          </div>
-          <div class="row pomodoro-clock">
-            <!-- Clock -->
-              <svg viewBox="0 0 170 170">
-                <circle cx="85" cy="85" r="80" fill='#F7F8F8' stroke-width="5" stroke='#EAEAEA' />
-                <g id="clock-countdown-arc">
-                  
-                </g>
-                <g id="timer-button">
-                  <text x="73" y="125">&#xf04b;</text>
-                </g>
-                <g id="clock" class="svg-text">
-                  <text x="85" y="70" text-anchor="middle"></text>
-                </g>
-              </svg>
-          </div>
-          <div class="row pomodoro-controls col-md-10 col-md-offset-1">
-            <div id="work-time-wrapper">
-              <div class="title col-md-3">Work time:</div>
-              <div class="pomodoro-slider col-md-6">
-                <input id="work-time-slider" data-slider-id="work-time-slider-css" type="text" data-slider-min="1" data-slider-max="90" data-slider-step="1"/>
+        <!-- /#sidebar-wrapper -->
+  
+        <div id="page-content-wrapper">
+          <div class="col-md-12 pomodoro-wrapper">
+            <div class="col-md-6 col-md-offset-3 pomodoro-main">
+              <div class="row pomodoro-header">
+                
               </div>
-              <div class="display-time col-md-3">
-                <span id="work-time"></span>min
+              <div class="row pomodoro-message">
+                
               </div>
-            </div>
-            <div id="break-time-wrapper">
-              <div class="title col-md-3">Break time:</div>
-              <div class="pomodoro-slider col-md-6">
-                <input id="break-time-slider" data-slider-id="break-time-slider-css" type="text" data-slider-min="1" data-slider-max="25" data-slider-step="1"/>
-              </div>
-              <div class="display-time col-md-3">
-                <span id="break-time"></span>min
+              <div class="row pomodoro-clock">
+                <!-- Clock -->
+                  <svg viewBox="0 0 170 170">
+                    <g id="clock">
+                      
+                    </g>
+                    <g id="clock-countdown-arc">
+                      
+                    </g>
+                    <g id="timer-button">
+                      <text x="73" y="125">&#xf04b;</text>
+                    </g>
+                    <g id="clock" class="svg-text">
+                      <text x="85" y="70" text-anchor="middle"></text>
+                    </g>
+                  </svg>
               </div>
             </div>
           </div>
-        </div>
+    		</div>
+    		<!-- /#page-content-wrapper -->
       </div>
-		</div>
-	
+      <!-- /#wrapper -->
+    </div>
 	  <div class="audio">
 	    <audio src="sounds/start.mp3" type="audio/mpeg" id="audio-start"></audio>
 	    <audio src="sounds/end.mp3" type="audio/mpeg" id="audio-end"></audio>
@@ -140,20 +199,50 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.0.2/bootstrap-slider.min.js"></script>
       <!-- Own script -->
 	  <script>
-	    //In seconds
-	    var WorkTime = 25;
-	    var BreakTime = 5;
-	    var Period = "Work";
-	    var ClockRunning = false;
+	    /**** Variable ****/
+	    /* Time */
+	    var WorkTime = 25; //in minutes
+	    var BreakTime = 5; //in minutes
+	    var WorkLabel = "Untitled";
+	    
+	    /* Flags */
+	    var Period = "Work"; //Flag for current Countdown. Value is "Work" or "Break".
+	    var WaitForReset = false; //Flag for waiting users to reset after clock is stopped.
+
+	    /* Clock */
+	    var ClockRunning = false; //Flag for whether clock is running.
+	    var Work_Timer_Interval; //the setInterval object for Countdown.
 	    var CountdownTime = 0; //in milliseconds, the Countdown for clock.
 	    var ClockTime = 0; //in milliseconds, the actual time on the clock.
+      
+	    /* Clock design */
+	    /* svg viewport is 0 0 170 170 */
+      var ClockCenter = {XCoor: 85, YCoor: 85};
+      var ClockRadius = 80;
+      var ClockStrokeWidth = 5;
+      var ClockStrokeColor = "#EAEAEA";
+      
+      /* Countdown ring */
+      var ClockColorNormal = "#00CD00";
+      var ClockColor50 = "#CDC600";
+      var ClockColor75 = "#CD9000";
+      var ClockColor90 = "#CD0000";
 	    
-	    /* Clock */
-	    var Work_Timer_Interval; //the setInterval object for Countdown.
+	    /**** Document Ready ****/
       $(document).ready(function(){
+        /* Toggle Menu */
+        $("#toggle-add-pomodoro").click(function(e) {
+          e.preventDefault();
+          UpdateSidebar("add-pomodoro");
+          $("#wrapper").toggleClass("toggled");
+        });
+        
         /* Update default work time and break time */
         UpdateWorkTime(WorkTime);
         UpdateBreakTime(BreakTime);
+        /* Draw Clock */
+        DrawClock(ClockCenter, ClockRadius, ClockStrokeWidth, ClockStrokeColor);
+        
         /* Sliders Initialization*/
         $("#work-time-slider").slider({value: WorkTime});
         $("#break-time-slider").slider({value: BreakTime});
@@ -175,33 +264,61 @@
             // Reset things
             ClockRunning = false;
             clearInterval(Timer_Interval);
+            // WaitForReset Flag
+            WaitForReset = true;
             // Notify User
             Notify("ClockStops");
           }
           else{
-            // Pressing button = Start Clock
-            // Disable slider - user cannot change time when clock is running.
-            $("#work-time-slider").slider("disable");
-            $("#break-time-slider").slider("disable");
-            // Change button
-            $("#timer-button text").text("\uF04D");
-            // Play Audio
-            $("#audio-start").get(0).play();
-            // Set ClockRunning Flag
-            ClockRunning = true;
-            // Set CountdownTime
-            if(Period == "Work"){
-              CountdownTime = WorkTime*60*1000;
-              ClockTime = CountdownTime;
+            //If not waiting for reset
+            if(!WaitForReset){
+              // Pressing button = Start Clock
+              // Disable slider - user cannot change time when clock is running.
+              $("#work-time-slider").slider("disable");
+              $("#break-time-slider").slider("disable");
+              // Change button
+              $("#timer-button text").text("\uF04D");
+              // Play Audio
+              $("#audio-start").get(0).play();
+              // Set ClockRunning Flag
+              ClockRunning = true;
+              // Update Header
+              WorkLabel = $("#pomodoro-label input").val();
+              $(".pomodoro-header").html("<h1>"+WorkLabel+"</h1>");
+              $(".pomodoro-header").html();
+              // Set CountdownTime
+              if(Period == "Work"){
+                CountdownTime = WorkTime*60*1000;
+                ClockTime = CountdownTime;
+              }
+              // Countdown Starts
+              Timer_Interval = setInterval(UpdateClockTime, 1000);
             }
-            // Countdown Starts
-            Timer_Interval = setInterval(UpdateClockTime, 1000);
           }
         });
         
         /* Reset */
-        $(".pomodoro-message").on("click", ".reset", Reset);
+        $(".pomodoro-message").on("click", ".reset", function(){
+          Reset();
+          //Reset Flag
+          WaitForReset = false;
+        });
       });
+      
+      function DrawClock(center, radius, width, stroke_color){
+	    /* svg viewport is 0 0 170 170 */
+	    /* Center is an object with properties XCoor and YCoor. */
+	    /* stroke_color given in hex with # already*/
+        var newClock = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        newClock.setAttributeNS(null,"cx",center.XCoor);
+        newClock.setAttributeNS(null,"cy",center.YCoor);
+        newClock.setAttributeNS(null,"r",radius);
+        newClock.setAttributeNS(null,"fill",$("body").css("background-color"));
+        newClock.setAttributeNS(null,"stroke-width",width);
+        newClock.setAttributeNS(null,"stroke",stroke_color);
+        var Node = document.getElementById("clock");
+        Node.appendChild(newClock);
+      }
       
       function UpdateWorkTime(time){
         WorkTime = time;
@@ -215,6 +332,7 @@
       }
       
       function UpdateClockTime(){
+        //Update every second.
         ClockTime -= 1000;
         var sec = ("00" + (ClockTime/1000)%60).slice(-2);
         var min = ("00" + Math.floor(ClockTime/60000)).slice(-2);
@@ -231,6 +349,11 @@
             //Notify user that break time starts
             Notify("BreakStarts");
             //If Work block just ended, Break block starts.
+            //Reset Clock Stroke.
+            var Node = document.getElementById("clock-countdown-arc");
+            while(Node.firstChild){
+              Node.removeChild(Node.firstChild);
+            }
             Period = "Break";
             CountdownTime = BreakTime*60*1000;
             ClockTime = CountdownTime;
@@ -246,34 +369,61 @@
       }
       
       function DrawArc(){
-        //Remove Child
-          var Node = document.getElementById("clock-countdown-arc");
-          while(Node.firstChild){
-            Node.removeChild(Node.firstChild);
-          }
-        //Add Child
+        var Node = document.getElementById("clock-countdown-arc");
+        //Angle Calculation
         var TimeElapsedProp = (CountdownTime - ClockTime)/CountdownTime;
-        var Angle = 2 * Math.PI * TimeElapsedProp;
+        var offset = 0.01;
+        var Angle = 2 * Math.PI * TimeElapsedProp + offset;
+        var TargetXCoor = ClockCenter.XCoor + ClockRadius * Math.sin(Angle);
+        var TargetYCoor = ClockCenter.YCoor - ClockRadius * Math.cos(Angle);
+
+        var LastTimeElapsedProp = TimeElapsedProp - (1000/CountdownTime);
+        var LastAngle = 2 * Math.PI * LastTimeElapsedProp - offset;
+        var LastXCoor = ClockCenter.XCoor + ClockRadius * Math.sin(LastAngle);
+        var LastYCoor = ClockCenter.YCoor - ClockRadius * Math.cos(LastAngle);
+        
+        //Add Child
         var newPath = document.createElementNS('http://www.w3.org/2000/svg','path');
-        var TargetXCoor = 85 + 80 * Math.sin(Angle);
-        var TargetYCoor = 85 - 80 * Math.cos(Angle);
-        if(TimeElapsedProp <= 0.5){
-          newPath.setAttributeNS(null,"d","M85,5 A80,80 0 0,1 " + TargetXCoor + " " + TargetYCoor);
-          newPath.setAttributeNS(null,"style", "stroke: #00CD00; stroke-width: 5; fill:none");
+        newPath.setAttributeNS(null,"d","M" + LastXCoor + " " + LastYCoor + "A" + ClockRadius + " " + ClockRadius + " 0 0,1 " + TargetXCoor + " " + TargetYCoor);
+        newPath.setAttributeNS(null,"style", "stroke-width: 5; fill:none");
+        //Coloring the ring
+        if(TimeElapsedProp < 0.5){
+          //Normal color
+          newPath.setAttributeNS(null,"stroke", ClockColorNormal);
+        }
+        else if(TimeElapsedProp < 0.75){
+          newPath.setAttributeNS(null,"stroke", ClockColor50);
+          
+          if(LastTimeElapsedProp < 0.5){
+            //Transition to Half way Color
+            var pathNodes = Node.getElementsByTagName("path");
+            for(var i = 0; i < pathNodes.length; i++){
+              pathNodes[i].setAttributeNS(null, "stroke", ClockColor50);
+            }
+          }
+        }
+        else if(TimeElapsedProp < 0.9){
+          newPath.setAttributeNS(null, "stroke", ClockColor75);
+          
+          if(LastTimeElapsedProp < 0.75){
+            //Transition to Three Quarters Color
+            var pathNodes = Node.getElementsByTagName("path");
+            for(var i = 0; i < pathNodes.length; i++){
+              pathNodes[i].setAttributeNS(null, "stroke", ClockColor75);
+            }
+          }
         }
         else{
-          newPath.setAttributeNS(null,"d","M85,5 A80,80 1 1,1 " + TargetXCoor + " " + TargetYCoor);
-          if(TimeElapsedProp > 0.9){
-            newPath.setAttributeNS(null,"style", "stroke: #B0171F; stroke-width: 5; fill:none");
-          }
-          else if(TimeElapsedProp > 0.7){
-            newPath.setAttributeNS(null,"style", "stroke: #FBCA71; stroke-width: 5; fill:none");
-          }
-          else{
-            newPath.setAttributeNS(null,"style", "stroke: #F6F3B1; stroke-width: 5; fill:none");
+          newPath.setAttributeNS(null, "stroke", ClockColor90);
+          
+          if(LastTimeElapsedProp < 0.9){
+            //Transition to 90% Color
+            var pathNodes = Node.getElementsByTagName("path");
+            for(var i = 0; i < pathNodes.length; i++){
+              pathNodes[i].setAttributeNS(null, "stroke", ClockColor90);
+            }
           }
         }
-        
         Node.appendChild(newPath);
       }
       function Reset(){
@@ -285,8 +435,16 @@
           Period = "Work";
           UpdateWorkTime(WorkTime);
           
-          document.getElementById("clock-countdown-arc").removeChild(document.getElementById("clock-countdown-arc").firstChild);
+          var Node = document.getElementById("clock-countdown-arc");
+          while(Node.firstChild){
+            Node.removeChild(Node.firstChild);
+          }
+          
+          //Reset Messages
           $(".pomodoro-message").html("");
+          $("#pomodoro-label input").val("");
+          WorkLabel = "Untitled";
+          $(".pomodoro-header").html("");
       }
       
       function Notify(msg){
@@ -303,6 +461,13 @@
             break;
         }
         $(".pomodoro-message").html("<h2>" + pomodoroMessage + "</h2>");
+      }
+      
+      function UpdateSidebar(msg){
+        if(msg == "add-pomodoro"){
+          $("#sidebar-wrapper .sidebar-brand a").html("Add Pomodoro");
+          $("#sidebar-add-pomodoro").css("display","block");
+        }
       }
 	  </script>
 	</body>
