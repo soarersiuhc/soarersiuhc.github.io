@@ -430,11 +430,12 @@
           // Enable slider
           $("#work-time-slider").slider("enable");
           $("#break-time-slider").slider("enable");
-          // Resetting
+          // Reset Flags
           ClockRunning = false;
           Period = "Work";
+          // Reset Clock
           UpdateWorkTime(WorkTime);
-          
+          $("#timer-button text").text("\uF04B");          
           var Node = document.getElementById("clock-countdown-arc");
           while(Node.firstChild){
             Node.removeChild(Node.firstChild);
