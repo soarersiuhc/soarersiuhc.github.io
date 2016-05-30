@@ -241,37 +241,7 @@
         module.exports = exports;
 })();
 },{}],2:[function(require,module,exports){
-/*************************
- * Period Module
-*************************/
-  (function(){
-        var defaultWorkTime = 52; //in minutes
-        var defaultWorkID = {slider: "work-time-slider", panel: "work-time"};
-        var defaultBreakTime = 8; //in minutes
-        var defaultBreakID = {slider: "break-time-slider", panel: "break-time"};
-        var defaultLabel = "Untitled";
-        
-        /* Return */
-        var exports = function(name){
-          var Obj = {label: defaultLabel};
-          if(name == "Work"){
-            Obj.time = defaultWorkTime;
-            Obj.cssid = defaultWorkID;
-          }
-          else if(name == "Break"){
-            Obj.time = defaultBreakTime;
-            Obj.cssid = defaultBreakID;
-          }
-          Obj.updateTime = function(num){
-            Obj.time = num;
-          }
-          return Obj;
-        };
-        
-        module.exports = exports;
-      })();
-},{}],3:[function(require,module,exports){
-var Pikadoro = (function(){
+(function(){
   /***********************
   Global variables
   ***********************/
@@ -432,6 +402,39 @@ var Pikadoro = (function(){
   Exports
   ***********************/
   var exports = {init: main};
-  return exports;
+  module.exports = exports;
 })();
-},{"./clock.js":1,"./period.js":2}]},{},[3]);
+},{"./clock.js":1,"./period.js":3}],3:[function(require,module,exports){
+/*************************
+ * Period Module
+*************************/
+  (function(){
+        var defaultWorkTime = 52; //in minutes
+        var defaultWorkID = {slider: "work-time-slider", panel: "work-time"};
+        var defaultBreakTime = 8; //in minutes
+        var defaultBreakID = {slider: "break-time-slider", panel: "break-time"};
+        var defaultLabel = "Untitled";
+        
+        /* Return */
+        var exports = function(name){
+          var Obj = {label: defaultLabel};
+          if(name == "Work"){
+            Obj.time = defaultWorkTime;
+            Obj.cssid = defaultWorkID;
+          }
+          else if(name == "Break"){
+            Obj.time = defaultBreakTime;
+            Obj.cssid = defaultBreakID;
+          }
+          Obj.updateTime = function(num){
+            Obj.time = num;
+          }
+          return Obj;
+        };
+        
+        module.exports = exports;
+      })();
+},{}],4:[function(require,module,exports){
+var Pikadoro = require("./main.js");
+Pikadoro.init();
+},{"./main.js":2}]},{},[4]);
