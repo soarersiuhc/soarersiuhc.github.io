@@ -2,9 +2,7 @@
   /***********************
   Global variables
   ***********************/
-  var ClockHeader = "pika-"
   var EventsArray = [SliderChange, ClockClick, UserReset, SidebarAddPomodoro];
-  var State = "Work";
 
   /***********************
   Modules
@@ -12,6 +10,7 @@
   /* Clock module */
   var Clock = require("./clock.js");
   var Period = require("./period.js");
+  var Notify = require("./notify.js");
   
   /***********************
   Global variables
@@ -47,6 +46,7 @@
   
   function InitializeClock(){
     Clock.setTime(Work.time);
+    Clock.setDefault(Work.time, Break.time);
     Clock.draw();
   }
   
@@ -56,26 +56,27 @@
       Work.updateTime(slideEvent.value.newValue);
       $("#" + Work.cssid.panel).html(slideEvent.value.newValue);
       Clock.setTime(slideEvent.value.newValue);
+      Clock.setDefault(slideEvent.value.newValue);
     });
     $("#" + Break.cssid.slider).slider().on("change", function(slideEvent){
       Break.updateTime(slideEvent.value.newValue);
       $("#" + Break.cssid.panel).html(slideEvent.value.newValue);
+      Clock.setDefault(Work.time, slideEvent.value.newValue);
     });
   }
   
   function ClockClick(){
-    $("#" + ClockHeader + "timer-button").click(function(){
-      if(Clock.flags.running){
-        //Click happens when clock is running
-        Clock.stopClock(Notify);
-      }
-      else if(!Clock.flags.waitforReset){
-        //Click happens when clock is not running, and not waiting for reset
+    Clock.clockClick(Callback_ClockClick);
+  }
+
+  function Callback_ClockClick(flags){
+    if(!flags.running && !flags.waitforReset){
+        //Click happens when clock is not running and not waiting for reset
+        //Action: Start clock
         DisableSliders();
         Work.label = $("#pomodoro-label input").val();
-        Clock.startClock(Notify);
-      }
-    });
+        Notify.setLabel(Work.label);
+    }
   }
   
   function UserReset(){
@@ -106,45 +107,12 @@
   function Reset(param){
     EnableSliders();
     UpdateSidebar(Work.time);
-    ResetNotifications();
     
     //Clock
     Clock.setTime(Work.time);
     Clock.resetClock();
     if(typeof param !== "undefined")
       Clock.flags.waitforReset = false;
-  }
-  
-  function ResetNotifications(){
-    //Reset Messages
-    $(".pomodoro-message").html("");
-    $("#pomodoro-label input").val("");
-    $(".pomodoro-header").html("");
-  }
-  
-  /* Notification */
-  function Notify(err, msg){
-    if(err) throw err;
-    var pomodoroMessage = msg;
-    if(msg == "clock-stops"){
-      pomodoroMessage = "The clock is stopped. <span class='reset'>Reset</span> ?";
-      $(".pomodoro-message").html("<h2>" + pomodoroMessage + "</h2>");
-    }
-    else if(msg == "clock-starts"){
-      $(".pomodoro-header").html("<h1>" + Work.label + "</h1>");
-      // Play Audio
-      $("#audio-start").get(0).play();
-    }
-    else if(msg == "break-time-starts"){
-      pomodoroMessage = "Well done and have a break! The break ends at:";
-      $(".pomodoro-message").html("<h2>" + pomodoroMessage + "</h2>");
-      //Play End Music
-      $("#audio-end").get(0).play();
-    }
-    else if(msg == "break-ends"){
-      //Play End Music
-      $("#audio-end").get(0).play();
-    }
   }
   
   /* Sidebar */

@@ -3,12 +3,16 @@
 *************************/
 (function(){
         /***********************
+         * Require
+        ***********************/
+        var Notify = require("./notify.js");
+        /***********************
         Global variables
         ***********************/
         var ClockHeader = "pika-";
         var ClockTextID = "clock-text";
         var ClockButtonID = "timer-button-text";
-        var ClockStrokeID = "clock-countdown-arc"
+        var ClockStrokeID = "clock-countdown-arc";
         var ClockID = "clock";
         
         var running = false;
@@ -18,7 +22,8 @@
         var timer; //setInterval object
         var CountdownTime = 0; //Total time in countdown, in milliseconds
         var ClockTime = 0; //Remaining time in countdown, in milliseconds
-      
+        var defaultWorkTime;
+        var defaultBreakTime;
       	/* svg viewport is 0 0 170 170 */
         var ClockCenter = {XCoor: 85, YCoor: 85};
         var ClockRadius = 80;
@@ -40,6 +45,11 @@
           $("#" + ClockHeader + ClockTextID).text(str);
         }
       
+        function setDefault(WorkTime, BreakTime){
+          defaultWorkTime = WorkTime;
+          if(typeof BreakTime !== "undefined") defaultBreakTime = BreakTime;
+        }
+        
         function draw(){
       	/* svg viewport is 0 0 170 170 */
       	/* Center is an object with properties XCoor and YCoor. */
@@ -225,18 +235,41 @@
           UpdateFlags("running", false, this);
           State = "Work";
           ResetClockStroke();
+          
+          Notify.reset();
         }
+        /***********************
+         * Event Handler
+        ***********************/
+        function ClockClick(callback){
+          $("#" + ClockHeader + ClockButtonID).click(function(){
+            var flags = {running: running, waitforReset: waitforReset};
+            if(running){
+              //Click happens when clock is running
+              callback(flags);
+              stopClock(Notify.func);
+            }
+            else if(!waitforReset){
+              //Click happens when clock is not running, and not waiting for reset
+              callback(flags);
+              start(Notify.func);
+            }
+          });
+        }
+        
         /***********************
         Exports
         ***********************/
         var exports = {
           setTime: setTime,
+          setDefault: setDefault,
           draw: draw,
           stopClock: stop,
           startClock: start,
           flags: {running: running, waitforReset: waitforReset},
           timer: timer,
-          resetClock: ResetClock
+          resetClock: ResetClock,
+          clockClick: ClockClick
         }
         
         module.exports = exports;
