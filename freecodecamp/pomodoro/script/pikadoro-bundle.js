@@ -453,7 +453,7 @@
     setLabel: SetWorkLabel
   }
   module.exports = exports;
-})
+})();
 },{}],4:[function(require,module,exports){
 /*************************
  * Period Module

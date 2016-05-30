@@ -44,4 +44,4 @@
     setLabel: SetWorkLabel
   }
   module.exports = exports;
-})
+})();
