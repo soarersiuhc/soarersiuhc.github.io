@@ -9,11 +9,12 @@
         var ClockHeader = "pika-";
         var ClockTextID = "clock-text";
         var ClockButtonID = "timer-button-text";
-        var ClockStrokeID = "clock-countdown-arc";
+        var ClockStrokeID = "clock-countdown-arc"
         var ClockID = "clock";
         
         var running = false;
         var waitforReset = false;
+        var State = "Work";
   
         var timer; //setInterval object
         var CountdownTime = 0; //Total time in countdown, in milliseconds
@@ -290,7 +291,6 @@
   }
   
   function InitializeClock(){
-    console.log(Clock);
     Clock.setTime(Work.time);
     Clock.draw();
   }
@@ -435,7 +435,4 @@
         
         module.exports = exports;
       })();
-},{}],4:[function(require,module,exports){
-var Pikadoro = require("./main.js");
-Pikadoro.init();
-},{"./main.js":2}]},{},[4]);
+},{}]},{},[2]);

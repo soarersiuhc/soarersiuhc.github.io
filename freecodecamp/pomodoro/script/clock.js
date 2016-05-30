@@ -13,6 +13,7 @@
         
         var running = false;
         var waitforReset = false;
+        var State = "Work";
   
         var timer; //setInterval object
         var CountdownTime = 0; //Total time in countdown, in milliseconds

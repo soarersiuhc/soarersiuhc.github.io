@@ -46,7 +46,6 @@
   }
   
   function InitializeClock(){
-    console.log(Clock);
     Clock.setTime(Work.time);
     Clock.draw();
   }
