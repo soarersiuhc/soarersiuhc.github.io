@@ -435,4 +435,7 @@
         
         module.exports = exports;
       })();
-},{}]},{},[2]);
+},{}],4:[function(require,module,exports){
+var Pikadoro = require("./main.js");
+Pikadoro.init();
+},{"./main.js":2}]},{},[4]);
