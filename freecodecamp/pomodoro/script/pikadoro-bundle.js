@@ -6,9 +6,10 @@
         /***********************
         Global variables
         ***********************/
+        var ClockHeader = "pika-";
         var ClockTextID = "clock-text";
         var ClockButtonID = "timer-button-text";
-        var ClockStrokeID = "clock-countdown-arc"
+        var ClockStrokeID = "clock-countdown-arc";
         var ClockID = "clock";
         
         var running = false;
