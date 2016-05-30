@@ -25,5 +25,5 @@
           return Obj;
         };
         
-        return exports;
+        module.exports = exports;
       })();
