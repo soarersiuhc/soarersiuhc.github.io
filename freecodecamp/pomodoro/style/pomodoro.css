@@ -1,0 +1,104 @@
+body{
+  background-color: #F7F8F8;
+}
+      
+/*************************
+     Navigation bar
+*************************/
+
+nav{
+  background-color: #26075C;
+  box-shadow: 0px 0px 2px 1px;
+  padding: 0% 6%;
+}
+		  
+.navbar .nav > li > a:hover{
+  background-color: #337AB7;
+  color: #FFFFFF;
+}
+      
+.navbar{
+  margin-bottom: 2px;
+}
+
+/**** Sidebar ****/
+
+#page-content-wrapper{
+  padding-top: 2%;
+}
+      
+.sidebar-div{
+  display: none;
+}
+      
+#pomodoro-label input{
+  background-color: transparent;
+  line-height: 1.5;
+  border: none;
+  border-bottom: 2px solid #26075C;
+}
+
+#pomodoro-label input:focus{
+  outline: none;
+}
+
+
+/* Time-adjustment slider */
+
+.pomodoro-controls{
+  margin-top: 3%;
+}
+
+#work-time-wrapper:after, #break-time-wrapper:after{
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+#work-time-slider-css .slider-selection, #break-time-slider-css .slider-selection {
+  background: #BABABA;
+}
+
+/*************************
+     Clock-related
+*************************/
+      
+/* Pomodoro Message */
+.pomodoro-header h1{
+  text-align: center;
+  margin-bottom: 0.5em;
+  margin-top: 0em;
+}
+      
+.pomodoro-message h2{
+  text-align: center;
+  margin-bottom: 0.5em;
+  margin-top: 0em;
+  color: #26075C;
+}
+      
+.pomodoro-message .reset{
+  color: red;
+}
+
+.pomodoro-message .reset:hover{
+  text-decoration: underline;
+}
+      
+/* Pomodoro Clock */
+.pomodoro-clock svg{
+  display: block;
+  margin: auto;
+  width: 50%;
+  fill: #24C3CE;
+}
+      
+.pomodoro-clock svg #pika-timer-button{
+  font-family: FontAwesome;
+  font-size: 200%;
+}
+
+.pomodoro-clock svg .svg-text{
+  font-size: 250%;
+}

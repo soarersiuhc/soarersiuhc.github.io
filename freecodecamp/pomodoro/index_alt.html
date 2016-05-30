@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pikadoro</title>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <!-- Bootstrap slider -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.0.2/css/bootstrap-slider.min.css">
+        <!-- Bootstrap sidebar -->
+        <link rel="stylesheet" href="style/simple-sidebar.css">
+        <!-- Custom css -->
+        <link rel="stylesheet" href="style/pomodoro.css">
+	</head>
+	<body>
+	  
+    <nav class="navbar navbar-light navbar-static-top">
+      <!-- Navbar container -->
+      <div class="navbar-container" role="navigation">
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="#" target="_self">
+          <img class="img-responsive" src="">
+        </a>
+        <ul class="nav navbar-nav navbar-left">
+          <li>
+            <a href="#" id="toggle-add-pomodoro"><i class="fa fa-plus" aria-hidden="true"></i></a>
+          </li>
+        </ul>
+        <!-- Navbar list -->
+        <ul class="nav navbar-nav navbar-right nav-pills">
+          <li><a href="#">Timesheets</a></li>
+          <li><a href="#">Reports</a></li>
+        </ul>
+      </div>
+	   </nav>
+    
+  	<div class="container-fluid">
+  	  <div id="wrapper" class="toggled">
+        <!-- sidebar-wrapper -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+              <li class="sidebar-brand">
+                <a href="#"></a>
+              </li>
+              <div id="sidebar-add-pomodoro" class="sidebar-div pomodoro-controls">
+                <div class="one-pomodoro-block">
+                  <li>
+                    <div id="pomodoro-label">
+                      <input type="text" placeholder="Label"/>
+                    </div>
+                  </li>
+                  <li>
+                    <div id="work-time-wrapper">
+                      <div class="title">Work time: <span id="work-time"></span> min</div>
+                      <div class="pomodoro-slider">
+                        <input id="work-time-slider" data-slider-id="work-time-slider-css" type="text" data-slider-min="1" data-slider-max="90" data-slider-step="1"/>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div id="break-time-wrapper">
+                      <div class="title">Break time: <span id="break-time"></span> min</div>
+                      <div class="pomodoro-slider">
+                        <input id="break-time-slider" data-slider-id="break-time-slider-css" type="text" data-slider-min="1" data-slider-max="25" data-slider-step="1"/>
+                      </div>
+                    </div>
+                  </li>
+                </div>
+              </div>
+          </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        
+        <!-- page-content-wrapper -->
+        <div id="page-content-wrapper">
+          <div class="col-md-12 pomodoro-wrapper">
+            <div class="col-md-6 col-md-offset-3 pomodoro-main">
+              <div class="row pomodoro-header">
+                
+              </div>
+              <div class="row pomodoro-message">
+                
+              </div>
+              <div class="row pomodoro-clock">
+                <!-- Clock -->
+                  <svg viewBox="0 0 170 170">
+                    <g id="pika-clock">
+                    </g>
+                    <g id="pika-clock-countdown-arc">
+                      
+                    </g>
+                    <g id="pika-timer-button">
+                      <text x="73" y="125" id="pika-timer-button-text">&#xf04b;</text>
+                    </g>
+                    <g class="svg-text">
+                      <text x="85" y="70" text-anchor="middle" id="pika-clock-text"></text>
+                    </g>
+                  </svg>
+              </div>
+            </div>
+          </div>
+    		</div>
+    		<!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+    </div>
+    
+    <!-- Audio -->
+	  <div class="audio">
+	    <audio src="sounds/start.mp3" type="audio/mpeg" id="audio-start"></audio>
+	    <audio src="sounds/end.mp3" type="audio/mpeg" id="audio-end"></audio>
+	  </div>
+    
+    <!-- Scripts -->
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/bf7e5d2d91.js"></script>
+    <!-- Bootstrap Slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.0.2/bootstrap-slider.min.js"></script>
+    <!-- Own script -->
+    <script src="script/pikamodule.js"></script>
+	  <script src="script/pikadoro-main.js"></script>
+	  <script>
+  	  $(document).ready(function(){
+  	    //Initialize clock
+  	    Pikadoro.init();
+  	  });
+	  </script>
+	</body>
+	
+</html>

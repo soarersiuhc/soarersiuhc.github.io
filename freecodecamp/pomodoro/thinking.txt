@@ -1,0 +1,64 @@
+Functions
+
+- Initialize:
+---- Update work/break time in slider/clock
+---- Draw clock
+
+- Event Listeners
+---- Slider on slide
+---- Clock on click (play/stop)
+
+- Clock methods:
+---- Update Clock Time
+------ Draw Arc as Countdown animation
+
+- Utility
+---- Reset whole page
+---- Notify users (update the two divs above the clock)
+
+Objects
+- Clock
+---- Properties:
+------ Center
+------ Radius
+------ StrokeWidth
+------ StrokeColor
+------ CountdownAnimation
+---------- ClockColorNormal
+---------- ClockColor50
+---------- ClockColor75
+---------- ClockColor90
+
+- Period (Work/Break)
+---- Properties:
+------ Time
+------ Label
+------ cssid
+---- Method:
+------ Update Work/Break Time
+
+- Menu
+
+Modules
+- Clock
+---- Method: setTime
+---- Method: draw
+---- Method: stop
+---- Method: start
+---- property: flags.running, flags.waitforReset
+---- property: Timer (setInterval object)
+
+- Period
+---- Variable: defaultWorkTime, defaultBreakTime
+---- Method: a constructor - taking "Work", "Break"
+------- Properties: time, label, cssid.slider
+------- Method: updateTime
+
+Global functions
+- Reset: (optional parameter: user)
+- Notify(err, msg)
+---- msg can be:
+-------- clock-stop (Show stop message)
+-------- clock-starts (Show label, play audio)
+-------- break-time-starts (Play music, update period if necessary)
+-------- break-ends (Play music)

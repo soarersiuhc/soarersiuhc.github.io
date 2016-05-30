@@ -1,6 +1,5 @@
 *** Front end ***
 - Toggle Menu to add time
-  - Option to start break automatically or manually.
   - Option to do multiple pomodoro at once.
 - Adjust slide bar height
 
