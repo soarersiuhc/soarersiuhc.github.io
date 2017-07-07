@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style/dh.css" />
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['\\(','\\)']],
+			processEscapes: true
+  }
+});
+</script>
+<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="script/dh.js"></script>
+<title>Diffie-Hellman with Numbers</title>
+</head>
+<body>
+
+<div id="all">
+	<div id="header">
+		<h1>Diffie-Hellman with Numbers</h1>
+	</div>
+	<div id="alice">
+		<center><img src="alice.jpg" width="140px"></center>
+			<h3>Secret Key</h3> 
+				<div class="wrapper">
+						<form onSubmit="AliceChangeSecretKey(); return false;" style="margin: auto">
+							<table>
+								<tr>
+									<td align="center">a: <input id="alice_secret_text" type="number"></td>
+								</tr>
+								<tr>
+									<td align="center"><input class="button button-red" type="submit" value="Change"></td>
+								</tr>
+							</table>
+						</form>			
+				</div>
+			<h3>Alice's Public Key</h3>
+				<center>\(A \equiv g^a \mod p \)</center>
+				<div class="wrapper">
+					<div class="center">
+						<center>
+						<form onSubmit="AliceChangePublicKey(); return false;"><input class="button button-red" type="submit" value="Calculate"></form>
+						</center>
+					</div>
+					<div id="alice_public" class="keybox"></div>
+				</div>	
+			<!-- Alice sends Public Key -->
+				<center>
+					<form onSubmit="AliceSendKey(); return false;"><input class="button button-red" type="submit" value="Send to Bob"></form>
+				</center>
+				<br>
+			<h3>Shared Secret Key</h3>
+				<center>\(K \equiv B^a \mod p \)</center>
+				<div class="wrapper">
+					<div class="center">
+						<center>
+						<form onSubmit="AliceChangeSharedSecretKey(); return false;"><input class="button button-red" type="Submit" value="Show"></form>
+						</center>
+					</div>
+					<div id="alice_shared_secret" class="keybox"></div>
+				</div>
+			
+		
+	</div>
+	
+	<div id="eve">
+		<center><img src="eve.jpg" width="140px"></center>		
+			
+			<h3>Pick our shared key</h3>
+				<div class="wrapper">
+						<form onSubmit="ChangeSharedKey(); return false;" style="margin:auto">
+							<table>
+								<tr>
+									<td>Prime p: </td>
+									<td><input id="public_prime" type="number" value="541"></td>
+								</tr>
+								<tr>
+									<td>Primitive root g: </td>
+									<td><input id="public_primitive_root" type="number" value="10"></td>
+								</tr>
+								<tr>
+									<td colspan="2" align="center"><input class="button button-red" type="submit" value="Set"></td>
+								</tr>
+							</table>
+						</form>
+				</div>
+			
+			<div id="messages"></div>
+		<hr>
+		<p>The shared key should agree because \[B^a \equiv (g^b)^a \mod p \equiv g^{ab} \mod p \\  A^b \equiv (g^a)^b \mod p \equiv g^{ab} \mod p\]</p>
+		<hr>
+		<center>
+			<form onSubmit="window.location.reload();"><input class="button button-red" type="Submit" value="Reset"></form>
+		</center>
+	</div>
+	
+	<div id="bob">
+		<center><img src="bob.jpg" width="140px"></center>
+			<h3>Bob's public key</h3>
+			<div class="wrapper">
+				<div style="display:inline-block; margin-top:5px; margin-bottom:5px; width:0px;">B:</div>
+				<div id="bob_public" class="keybox"></div>
+			</div>
+			<h3>Shared Secret Key</h3>
+			<center>\(K \equiv A^b \mod p \)</center>			
+			<center><div id="bob_shared_secret" class="keybox"></div></center>
+	</div>
+</div>
+</body>
+</html>

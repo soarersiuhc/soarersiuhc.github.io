@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style/dh.css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="script/colormix-2.0.0.min.js"></script>
+<script src="script/jscolor.js"></script>
+<script type="text/javascript" src="script/dh.js"></script>
+<title>Diffie-Hellman with colors</title>
+</head>
+<body>
+
+<div id="all">
+	<div id="header">
+		<h1>Diffie-Hellman with colors</h1>
+	</div>
+	<div id="alice">
+		<center><img src="alice.jpg" width="140px"></center>
+			<h3>Secret color</h3> 
+				<div class="wrapper">
+					<div class="center"><input id="alice_secret_text" class="color" type="text" size="6" onchange="AliceChangeSecretColor(); return false;"></div>
+					<div id="alice_secret_color" class="colorbox"></div>
+				</div>
+			<h3>Alice's Mixed Color</h3>
+				<div class="wrapper">
+					<div class="center">
+						<form onSubmit="AliceChangeMixedColor(); return false;"><input class="button button-red" type="submit" value="Mix"></form>
+					</div>
+					<div id="alice_mixed" class="colorbox"></div>
+				</div>	
+			<!-- Alice sends color -->
+				<center>
+					<form onSubmit="AliceSendColor(); return false;"><input class="button button-red" type="submit" value="Send to Bob"></form>
+				</center>
+				<br>
+			<h3>Shared Secret Color</h3>
+				<div class="wrapper">
+					<div class="center">
+						<form onSubmit="AliceChangeSharedSecretColor(); return false;"><input class="button button-red" type="Submit" value="Show"></form>
+					</div>
+					<div id="alice_shared_secret" class="colorbox"></div>
+				</div>
+			
+		
+	</div>
+	
+	<div id="eve">
+		<center><img src="eve.jpg" width="140px"></center>		
+			
+			<h3>Pick our shared color</h3>
+				<div class="wrapper">
+					<div class="center">
+						<input id="shared_text" class="color" type="text" size="6" onchange="ChangeSharedColor(); return false;" >
+					</div>
+					<div id="shared_color" class="colorbox"></div>
+				</div>
+			
+			<div id="messages"></div>
+		<hr>
+		<center>
+			<form onSubmit="window.location.reload();"><input class="button button-red" type="Submit" value="Reset"></form>
+		</center>
+	</div>
+	
+	<div id="bob">
+		<center><img src="bob.jpg" width="140px"></center>
+			<h3>Mixed color</h3>
+			<div id="bob_mixed" class="colorbox" style="margin-top:5px; margin-bottom:5px"></div>
+			<h3>Shared Secret Color</h3>
+			<div id="bob_shared_secret" class="colorbox" style="margin-top:5px; margin-bottom:5px"></div>
+			
+	</div>
+</div>
+</body>
+</html>

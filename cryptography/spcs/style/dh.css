@@ -1,0 +1,199 @@
+html, body{
+	margin: 0px;
+	height: 100%;
+	font-family: Verdana;
+}
+
+#all{
+	position: relative;
+	background-color: white;
+	margin: 0px auto;
+	width: 900px;
+	min-height: 100%;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	overflow: auto;
+	/* Box shadow */
+	-moz-box-shadow: 0px 0px 10px #888888; /* Firefox */
+	-webkit-box-shadow: 0px 0px 10px #888888; /* Safari */
+	box-shadow: 0px 0px 10px #888888; /* CSS 3 */
+}
+
+#header{
+	position: relative;
+	height: 45px;
+	width: 100%;
+	background-color: #AA0000;
+	/* Box shadow */
+	-moz-box-shadow: 0px 5px 5px #888888; /* Firefox */
+	-webkit-box-shadow: 0px 5px 5px #888888; /* Safari */
+	box-shadow: 0px 5px 5px #888888; /* CSS 3 */
+}
+
+h1,h2,h3,h4,h5,h6{
+	margin: 0px;
+}
+
+h3{
+	padding: 3px 10px;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	text-align: center;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+#header h1{
+	text-align: center;
+	color: #FFFFFF;
+	font-family: Georgia;
+	text-shadow: 0px 2px 3px #555;
+}
+
+/* Alice */
+#alice{
+	position: relative;
+	top: 15px;
+	width: 220px;
+	min-height: 200px;
+	float: left;
+	padding: 0px 5px;
+	overflow: auto;
+	border-right: 1px solid black;
+}
+
+/* Bob */
+#bob{
+	position: relative;
+	top: 15px;
+	width: 220px;
+	min-height: 200px;
+	float: right;
+	padding: 0px 5px;
+	overflow: auto;
+	border-left: 1px solid black;
+}
+
+/* Eve */
+#eve{
+	position: relative;
+	top: 15px;
+	width: 418px;
+	min-height: 200px;
+	display: inline-block;
+	padding: 0px 10px;
+	overflow: auto;
+}
+
+/* General */
+input[type="number"] {
+   width:60px;
+}
+
+.colorbox{
+	width: 50px;
+	min-height: 50px;
+	margin: auto;
+	vertical-align: middle;
+}
+
+.keybox{
+	width: 100px;
+	min-height: 37px;
+	margin: auto;
+	display: inline-flex;
+	justify-content: center;
+	align-content: center;
+	text-align: center;
+	border: 1px solid black;
+}
+
+.wrapper{
+	width: 100%;
+	min-height: 41px;
+	display: flex;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.center{
+	width: 80px;
+	vertical-align: middle;
+	margin: auto;
+}
+
+.message_class{
+	width: 100%;
+	vertical-align: middle;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+/* Sexy Flat Buttons, found on CodePen*/
+.button{
+    border-style: solid;
+    border-width: 0px 0px 3px;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+    color: #FFFFFF;	   
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    font-style: normal;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all 200ms ease-in-out 0s;
+    white-space: nowrap;	
+    font-family: "Gotham Rounded A","Gotham Rounded B",Helvetica,Arial,sans-serif;
+    font-weight: 700;	
+    padding: 9px 19px 9px;
+    font-size: 13px;
+}
+
+/*Green
+==========================*/
+.button-green{
+    border-color: #3AC162;
+	background-color: #5FCF80;
+}
+.button-green:hover, .button-green:focus, .button-green:active {
+    background-color: #4BC970;
+    border-color: #3AC162;    
+}
+
+/*Blue
+==========================*/
+.button-blue {
+    border-color: #326E99;
+    background-color: #3F8ABF;
+}
+
+.button-blue:hover, .button-blue:focus, .button-blue:active {
+    background-color: #397CAC;
+    border-color: #326E99;   
+}
+
+/*Grey
+==========================*/
+.button-grey {
+     background-color: #C6CCD2;
+     border-color: #AAB3BB;
+}
+.button-grey:hover, .button-grey:focus, .button-grey:active {
+    background-color: #B8BFC7;
+    border-color: #AAB3BB; 
+}
+
+/*Red
+==========================*/
+.button-red {
+    background-color: #ED5A5A !important;
+    border-color: #EA4343 !important;
+
+}
+.button-red:hover, .button-red:focus, .button-red:active {
+    background: none repeat scroll 0 0 #EB4848 !important;
+    border-color: #E83131 !important;    
+}
+

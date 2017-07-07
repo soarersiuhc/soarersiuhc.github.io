@@ -1,0 +1,180 @@
+html, body{
+	margin: 0px;
+	height: 100%;
+}
+
+#all{
+	position: relative;
+	background-color: white;
+	margin: 0px auto;
+	width: 800px;
+	min-height: 100%;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	overflow: auto;
+	/* Box shadow */
+	-moz-box-shadow: 0px 0px 10px #888888; /* Firefox */
+	-webkit-box-shadow: 0px 0px 10px #888888; /* Safari */
+	box-shadow: 0px 0px 10px #888888; /* CSS 3 */
+}
+
+#header{
+	background-color: #9DD1F6;
+	position: relative;
+	display: none;
+}
+
+#header h5{
+	text-align: right;
+	padding: 0px 10px;
+}
+
+h1,h2,h3,h4,h5,h6{
+	margin: 0px;
+}
+
+#nav1 {
+	padding: 0px;
+	height: 25px;
+	background-color: white;
+	margin: 0px;
+	color: #AA0000;
+	text-align: right;
+	display: none;
+}
+
+#nav1 ul, #nav1 li{
+	margin: 0px;
+}
+
+#nav1 li {
+	padding: 0px 10px;
+	list-style-type: none;
+	display: inline;
+	border-right: 1px solid #AA0000;
+	font-weight: bold;
+	font-family: Arial;
+}
+#nav1 .last_item {
+	border-right: none;
+}
+
+#nav2{
+	position: relative;
+	height: 45px;
+	width: 100%;
+	background-color: #AA0000;
+	/* Box shadow */
+	-moz-box-shadow: 0px 5px 5px #888888; /* Firefox */
+	-webkit-box-shadow: 0px 5px 5px #888888; /* Safari */
+	box-shadow: 0px 5px 5px #888888; /* CSS 3 */
+
+}
+
+#nav2 h1{
+	text-align: center;
+	color: #FFFFFF;
+	font-family: Georgia;
+	text-shadow: 0px 2px 3px #555;
+}
+
+#nav3{
+	position: relative;
+	top: 15px;
+	width: 200px;
+	height: 200px;
+	float: left;
+	padding: 0px 5px;
+	overflow: auto;
+}
+
+#nav3 ul{
+	padding: 0px;
+	font-size: 14pt;
+	font-family: Verdana;
+	list-style-type: none;
+}
+
+#nav3 ul li{
+	padding: 3px 10px;
+	border-top: 1px solid black;
+	text-align: center;
+}
+
+#nav3 ul li.last_item{
+	border-bottom: 1px solid black;
+}
+
+#nav3 ul span{
+	float: right;
+}
+
+a{color: #DC1314; text-decoration: none}
+a:hover{color: #DCC814;}
+
+#content{
+	border-left: 1px solid black;
+	position: relative;
+	top: 15px;
+	width: 550px;
+	min-height: 200px;
+	height: 90%;
+	display: inline-block;
+	padding: 0px 10px;
+	font-family: Verdana;
+	overflow: auto;
+}
+
+#footer{
+	position: relative;
+	height: 20px;
+	background-color: red;
+	display:none;
+}
+
+/* Content css setting */
+
+/* Title */
+#content h1{
+	border-bottom: 1px solid black;
+}
+
+#content h1, #content h2, #content h3, #content h4, #content h5, #content h6{
+	margin: 5px 0px;
+}
+
+#content h3{
+	width: 100%;
+	border-bottom: 1px solid black;
+}
+
+/* Blockquote */
+#content blockquote{
+	background-color: #DDDDDD;
+	padding: 3px;
+}
+
+
+/* Table */
+#content table{
+	border-collapse: collapse;
+	border: 1px solid black;
+	position: relative;
+	margin: 3px auto 7px auto;
+	
+}
+
+#content table td, #content table th{
+	border-collapse: collapse;
+	border: 1px solid black;
+	padding: .5em;
+}
+
+#content table th{
+	background-color: #AA0000;
+	color: #FFFFFF;
+}
+
+.table_id{
+	width: 2em;
+}

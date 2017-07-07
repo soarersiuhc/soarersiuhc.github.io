@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style/dh.css" />
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['\\(','\\)']],
+			processEscapes: true
+  }
+});
+</script>
+<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="script/elgamal.js"></script>
+<title>ElGamal</title>
+</head>
+<body>
+
+<div id="all">
+	<div id="header">
+		<h1>ElGamal</h1>
+	</div>
+	<div id="alice">
+		<center><img src="alice.jpg" width="140px"></center>
+			<h3>Message</h3> 
+				<div class="wrapper">
+						<form onSubmit="AliceChangeMessage(); return false;" style="margin: auto">
+							<table>
+								<tr>
+									<td>Message m: </td>
+									<td><input id="alice_secret_message" type="number"></td>
+								</tr>
+								<tr>
+									<td>Random k: </td>
+									<td><input id="alice_random_key" type="number"></td>
+								</tr>
+								<tr>
+									<td colspan="2" align="center"><input class="button button-red" type="submit" value="Change"></td>
+								</tr>
+							</table>
+						</form>			
+				</div>
+			<h3>Alice's Ciphertext</h3>
+				<center>\(c_1 \equiv g^k \mod p \)</center>
+				<div class="wrapper">
+					<div class="center">
+						<center>
+						<form onSubmit="AliceFindCipherTextOne(); return false;"><input class="button button-red" type="submit" value="Calculate"></form>
+						</center>
+					</div>
+					<div id="alice_ciphertext_one" class="keybox"></div>
+				</div>	
+				<center>\(c_2 \equiv mA^k \mod p \)</center>
+				<div class="wrapper">
+					<div class="center">
+						<center>
+						<form onSubmit="AliceFindCipherTextTwo(); return false;"><input class="button button-red" type="submit" value="Calculate"></form>
+						</center>
+					</div>
+					<div id="alice_ciphertext_two" class="keybox"></div>
+				</div>	
+			<!-- Alice sends Public Key -->
+				<center>
+					<form onSubmit="AliceSendMessage(); return false;"><input class="button button-red" type="submit" value="Send to Bob"></form>
+				</center>
+	</div>
+	
+	<div id="eve">
+		<center><img src="eve.jpg" width="140px"></center>		
+			
+			<div id="messages"></div>
+		<hr>
+		<center>
+			<form onSubmit="window.location.reload();"><input class="button button-red" type="Submit" value="Reset"></form>
+		</center>
+	</div>
+	
+	<div id="bob">
+		<center><img src="bob.jpg" width="140px"></center>
+			<h3>Pick p and g</h3>
+				<div class="wrapper">
+						<form onSubmit="BobPickKey(); return false;" style="margin:auto">
+							<table>
+								<tr>
+									<td>Prime p: </td>
+									<td><input id="public_prime" type="number" value="541"></td>
+								</tr>
+								<tr>
+									<td>Primitive root g: </td>
+									<td><input id="public_primitive_root" type="number" value="10"></td>
+								</tr>
+								<tr>
+									<td>Private key a: </td>
+									<td><input id="bob_secret_key" type="number"></td>
+								</tr>
+								<tr>
+									<td colspan="2" align="center"><input class="button button-red" type="submit" value="Set"></td>
+								</tr>
+							</table>
+						</form>			
+				</div>
+			<h3>Bob decrypts</h3>
+			<center>\(m \equiv c_1^{-a} c_2 \mod p \)</center>			
+			<center><div id="bob_received_message" class="keybox"></div></center>
+	</div>
+</div>
+</body>
+</html>
