@@ -20,6 +20,14 @@
 <!-- End Facebook Pixel Code -->
 </head>
 <body>
-<button type="button" onclick="fbq('track', 'Flagg_7');">Facebook pixel Fire!</button>
+<button type="button" onclick="fbq('track', 'Flagg_7', {
+  content_name: 'The Avengers Trailer',
+  content_category: 'Entertainment',
+  value: 1.50,
+  currency: 'USD',
+  referrer: document.referrer,
+  userAgent: navigator.userAgent,
+  language: navigator.language
+});">Facebook pixel Fire!</button>
 </body>
 </html>
