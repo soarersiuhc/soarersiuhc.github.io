@@ -1,66 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- Facebook Pixel Code -->
+<!-- DO NOT MODIFY -->
+<!-- Quora Pixel Code (JS Helper) -->
 <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2016084675338711');
-  fbq('track', 'PageView');
+!function(q,e,v,n,t,s){if(q.qp) return; n=q.qp=function(){n.qp?n.qp.apply(n,arguments):n.queue.push(arguments);}; n.queue=[];t=document.createElement(e);t.async=!0;t.src=v; s=document.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);}(window, 'script', 'https://a.quora.com/qevents.js');
+qp('init', '23c5f234caaa4534a672fee65872787c');
+qp('track', 'ViewContent');
 </script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=2016084675338711&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
-
-  <!-- Global site tag (gtag.js) - Google Ads: 821322289 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-821322289"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-821322289');
-</script>
-  
-  <!-- Event snippet for Testing conversion page
-In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
-<script>
-function gtag_report_conversion(url) {
-  var callback = function () {
-    if (typeof(url) != 'undefined') {
-      window.location = url;
-    }
-  };
-  gtag('event', 'conversion', {
-      'send_to': 'AW-821322289/TLVJCN3ovokBELHE0YcD',
-      'event_callback': callback
-  });
-  return false;
-}
-</script>
+<noscript><img height="1" width="1" style="display:none" src="https://q.quora.com/_/ad/23c5f234caaa4534a672fee65872787c/pixel?tag=ViewContent&noscript=1"/></noscript>
+<!-- End of Quora Pixel Code -->
 </head>
 <body>
-<button type="button" onclick="fbq('track', 'Flagg_7', {
-  content_name: 'The Avengers Trailer&&&',
-  content_category: 'Entertainment',
-  value: 1.50,
-  currency: 'USD',
-  referrer: document.referrer,
-  userAgent: navigator.userAgent,
-  language: navigator.language
-});">Facebook pixel Random Category Fire!</button>
 
-<button type="button" onclick="fbq('track', 'ViewContent');">Facebook pixel ViewContent Fire!</button>
-  
-<button type="button" onclick="fbq('track', 'Fire_1');fbq('track', 'Fire_2');fbq('track', 'Fire_3');fbq('track', 'Fire_4');fbq('track', 'Fire_5');fbq('track', 'Fire_6');fbq('track', 'Fire_7');fbq('track', 'Fire_8');fbq('track', 'Fire_9');fbq('track', 'Fire_10');">Facebook pixel Bamboozle</button>
-  
-<button type="button" onclick="gtag_report_conversion()">Google pixel Fire!</button>
+
+<button type="button" onclick="qp('track', 'Generic');">Q Generic fire!</button>
 </body>
 </html>
